@@ -1,38 +1,41 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 
+	"github.com/aureliushq/ink/internal/config"
 	"github.com/aureliushq/ink/internal/server"
 	"github.com/spf13/cobra"
 )
 
 // serveCmd represents the serve command
-var serveCmd = &cobra.Command{
-	Use:   "serve",
-	Short: "Serve your static site locally",
-	Long:  `Serve your static site locally in at http://localhost:8782 with live reloading.`,
-	RunE: func(cmd *cobra.Command, args []string) error {
-		host, err := cmd.Flags().GetString("host")
-		if err != nil {
-			return err
-		}
-		port, err := cmd.Flags().GetInt64("port")
-		if err != nil {
+func newServeCommand(cfg *config.Config) *cobra.Command {
+	serveCmd := &cobra.Command{
+		Use:   "serve",
+		Short: "Serve your static site locally",
+		Long:  `Serve your static site locally in at http://localhost:8782 with live reloading.`,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			fmt.Println(cfg)
+			host, err := cmd.Flags().GetString("host")
+			if err != nil {
+				return err
+			}
+			port, err := cmd.Flags().GetInt64("port")
+			if err != nil {
+				return nil
+			}
+
+			srv := server.NewServer(host, port)
+			if err := srv.ListenAndServe(); err != nil {
+				log.Fatal(err)
+				return err
+			}
+
 			return nil
-		}
-		srv := server.NewServer(host, port)
+		},
+	}
 
-		if err := srv.ListenAndServe(); err != nil {
-			log.Fatal(err)
-			return err
-		}
-
-		return nil
-	},
-}
-
-func init() {
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
@@ -43,6 +46,5 @@ func init() {
 	// is called directly, e.g.:
 	serveCmd.Flags().String("host", "localhost", "Host for the server, defaults to localhost")
 	serveCmd.Flags().Int64("port", 8782, "Port for the server, defaults to 8782")
-
-	rootCmd.AddCommand(serveCmd)
+	return serveCmd
 }
