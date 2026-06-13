@@ -150,22 +150,22 @@ parallel rendering as a later optimization.
 | FR-18 | Generate the highlight stylesheet (light + dark, scoped) at build time and inject it automatically into each page's =<head>=; require no template authoring by the user. |
 
 *** 7.5 Taxonomies: tags and series
-| ID    | Requirement                                                                                                                                                |
-|-------+------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| FR-19 | Group pages by =tags=; generate a listing page per tag rendered with =tag.html=.                                                                           |
-| FR-20 | Group pages by =series=; sort members by =series_order=; generate an ordered listing page per series rendered with =series.html= at =/series/<slug>/=.     |
+| ID    | Requirement                                                                                                                                              |
+|-------+----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FR-19 | Group pages by =tags=; generate a listing page per tag rendered with =tag.html=.                                                                             |
+| FR-20 | Group pages by =series=; sort members by =series_order=; generate an ordered listing page per series rendered with =series.html= at =/series/<slug>/=.           |
 | FR-21 | Assign per-page series context: position, total, and prev/next pointers, exposed nil-safely (e.g. =HasPrev=/=HasNext=).                                    |
 | FR-22 | Filter drafts and future-dated pages *before* assigning series adjacency, so numbering stays contiguous and no link points to an unpublished page.         |
 | FR-23 | Ensure deterministic ordering: explicit integer =series_order= with tie-break by date then filename; sort map keys before iterating to render index pages. |
-| FR-24 | Support exactly one series per page in v1.                                                                                                                 |
+| FR-24 | Support exactly one series per page in v1.                                                                                                               |
 
 *** 7.6 Assets and output
-| ID    | Requirement                                                                                                                                            |
-|-------+--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| FR-25 | Copy =static/= to the output verbatim; emit generated CSS (theme variables, highlight) as assets.                                                      |
+| ID    | Requirement                                                                                                                                      |
+|-------+--------------------------------------------------------------------------------------------------------------------------------------------------|
+| FR-25 | Copy =static/= to the output verbatim; emit generated CSS (theme variables, highlight) as assets.                                                  |
 | FR-26 | Produce pretty URLs (=/path/= served via =index.html=); support a configurable base URL including a path prefix (e.g. project pages under =/<repo>/=). |
 | FR-27 | Generate =404.html=, =sitemap.xml=, =robots.txt=, and an RSS/Atom feed.                                                                                |
-| FR-28 | Emit SEO and Open Graph metadata using the absolute base URL.                                                                                          |
+| FR-28 | Emit SEO and Open Graph metadata using the absolute base URL.                                                                                    |
 
 *** 7.7 Development server (=serve=)
 | ID    | Requirement                                                                                                                                                                                       |
@@ -185,11 +185,11 @@ parallel rendering as a later optimization.
 | FR-37 | Fail validation with actionable messages that list valid options.                                                                                                                          |
 
 *** 7.9 Distribution and deployment
-| ID    | Requirement                                                                                                                                             |
-|-------+---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| FR-38 | Produce cross-compiled release binaries (linux/macOS/windows × amd64/arm64) via GoReleaser, attached to GitHub Releases.                                |
+| ID    | Requirement                                                                                                                                           |
+|-------+-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FR-38 | Produce cross-compiled release binaries (linux/macOS/windows × amd64/arm64) via GoReleaser, attached to GitHub Releases.                              |
 | FR-39 | Provide a composite GitHub Action wrapping the binary, versioned with SemVer plus a moving major tag, usable in a site repo with a single =uses:= line. |
-| FR-40 | Document and/or provide deployment workflows for GitHub Pages, Cloudflare Pages, Vercel, and generic static hosts.                                      |
+| FR-40 | Document and/or provide deployment workflows for GitHub Pages, Cloudflare Pages, Vercel, and generic static hosts.                                    |
 | FR-41 | Stamp version/commit/date via build flags and expose them through =version=.                                                                            |
 
 --------------
