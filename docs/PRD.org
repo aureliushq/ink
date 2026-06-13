@@ -1,4 +1,4 @@
-* Product Requirements Document --- Static Site Generator
+* Product Requirements Document --- Ink, A Super Simple Static Site Generator
 *Working name:* =yourssg= (placeholder) *Status:* Draft *Scope of this
 document:* Requirements and phased delivery plan for a small,
 single-binary static site generator written in Go. A companion
@@ -116,23 +116,23 @@ parallel rendering as a later optimization.
 
 ** 7. Functional requirements
 *** 7.1 Content pipeline
-| ID   | Requirement                                                                                                                                      |
-|------+--------------------------------------------------------------------------------------------------------------------------------------------------|
-| FR-1 | Discover all markdown files under =content/=.                                                                                                    |
-| FR-2 | Parse frontmatter (TOML or YAML) into a typed struct. Schema: =title=, =date=, =draft=, =tags=, =slug=, =description=, =series=, =series_order=. |
-| FR-3 | Convert the markdown body to HTML using goldmark with GFM extensions.                                                                            |
-| FR-4 | Compute derived fields per page: word count and reading time (word count ÷ ~200 wpm, rounded up to whole minutes, minimum 1).                    |
-| FR-5 | Exclude =draft: true= pages from production builds (included in dev mode unless flagged); exclude future-dated pages from production builds.     |
+| ID   | Requirement                                                                                                                                |
+|------+--------------------------------------------------------------------------------------------------------------------------------------------|
+| FR-1 | Discover all markdown files under =content/=.                                                                                                |
+| FR-2 | Parse frontmatter (TOML or YAML) into a typed struct. Schema: =title=, =date=, =draft=, =tags=, =slug=, =description=, =series=, =series_order=.           |
+| FR-3 | Convert the markdown body to HTML using goldmark with GFM extensions.                                                                      |
+| FR-4 | Compute derived fields per page: word count and reading time (word count ÷ ~200 wpm, rounded up to whole minutes, minimum 1).              |
+| FR-5 | Exclude =draft: true= pages from production builds (included in dev mode unless flagged); exclude future-dated pages from production builds. |
 
 *** 7.2 Templating and themes
-| ID    | Requirement                                                                                                                                                                                                    |
-|-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| FR-6  | Define reserved template names (=base=, =single=, =list=, =tag=, =series=, =404=) and document the data each receives.                                                                                         |
+| ID    | Requirement                                                                                                                                                                                                |
+|-------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FR-6  | Define reserved template names (=base=, =single=, =list=, =tag=, =series=, =404=) and document the data each receives.                                                                                                 |
 | FR-7  | Ship one or more built-in themes embedded in the binary; =theme.name= selects the active theme (default ="default"=).                                                                                          |
 | FR-8  | Allow a site to override any reserved template by placing a same-named file in =layouts/=. Resolution order per template: site =layouts/= → selected built-in theme → error only if the theme itself lacks it. |
-| FR-9  | Load the selected theme's templates first, then the site's =layouts/= into the same template set, so same-named templates (including named blocks) override.                                                   |
+| FR-9  | Load the selected theme's templates first, then the site's =layouts/= into the same template set, so same-named templates (including named blocks) override.                                                 |
 | FR-10 | Validate =theme.name= against the embedded set; validate that every reserved name resolves; warn (not fail) on a =layouts/= file matching no reserved name.                                                    |
-| FR-11 | Each built-in theme bundles a default stylesheet; a site =static/= file at the same path overrides it.                                                                                                         |
+| FR-11 | Each built-in theme bundles a default stylesheet; a site =static/= file at the same path overrides it.                                                                                                       |
 
 *** 7.3 Theming configuration
 | ID    | Requirement                                                                                                                                                                                            |
