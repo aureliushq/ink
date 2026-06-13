@@ -21,6 +21,6 @@ description = "Yet another super simple static site generator"
 # line_numbers = false
 
 [build]
-content = "src/content"
+content = "demo/content"
 output  = "public"
 drafts  = false
