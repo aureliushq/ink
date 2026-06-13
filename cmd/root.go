@@ -7,12 +7,25 @@ import (
 
 	"github.com/aureliushq/ink/internal/config"
 	"github.com/charmbracelet/fang"
+	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 )
 
+type App struct {
+	Config *config.Config
+	Logger *log.Logger
+}
+
+func newApp() *App {
+	logger := log.NewWithOptions(os.Stdout, log.Options{ReportCaller: true, ReportTimestamp: true})
+	return &App{
+		Logger: logger,
+	}
+}
+
 // rootCmd represents the base command when called without any subcommands
 func NewRootCommand() *cobra.Command {
-	cfg := config.NewConfig()
+	app := newApp()
 
 	rootCmd := &cobra.Command{
 		Use:   "ink",
@@ -21,11 +34,11 @@ func NewRootCommand() *cobra.Command {
 Write content in markdown, bring your own HTML+CSS templates, deploy anywhere.
 Supports CommonMark and GFM. Comes with syntax highlighting, footnotes and margin notes,
 and more out-of-the-box.`,
-		// Uncomment the following line if your bare application
-		// has an action associated with it:
-		// Run: func(cmd *cobra.Command, args []string) { },
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-			if err := config.Setup(cfg); err != nil {
+			cfg := config.NewConfig()
+			app.Config = cfg
+
+			if err := config.Setup(app.Config); err != nil {
 				fmt.Println(err)
 				return err
 			}
@@ -33,9 +46,9 @@ and more out-of-the-box.`,
 		},
 	}
 
-	rootCmd.AddCommand(newBuildCommand(cfg))
-	rootCmd.AddCommand(newInitCommand(cfg))
-	rootCmd.AddCommand(newServeCommand(cfg))
+	rootCmd.AddCommand(newBuildCommand(app))
+	rootCmd.AddCommand(newInitCommand(app))
+	rootCmd.AddCommand(newServeCommand(app))
 	return rootCmd
 }
 

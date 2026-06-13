@@ -1,12 +1,11 @@
 package cmd
 
 import (
-	"github.com/aureliushq/ink/internal/config"
 	"github.com/spf13/cobra"
 )
 
 // buildCmd represents the build command
-func newBuildCommand(cfg *config.Config) *cobra.Command {
+func newBuildCommand(app *App) *cobra.Command {
 	buildCmd := &cobra.Command{
 		Use:   "build",
 		Short: "Build the static site from content files",

@@ -1,7 +1,6 @@
 package server
 
 import (
-	"errors"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -18,15 +17,6 @@ func NewServer(host string, port int64) *http.Server {
 		Addr:    fmt.Sprintf("%s:%d", host, port),
 		Handler: mux,
 	}
-}
-
-func Serve(server *http.Server) error {
-	err := server.ListenAndServe()
-	if !errors.Is(err, http.ErrServerClosed) {
-		return err
-	}
-
-	return nil
 }
 
 func pageHandler(w http.ResponseWriter, r *http.Request) {

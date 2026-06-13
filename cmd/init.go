@@ -1,12 +1,11 @@
 package cmd
 
 import (
-	"github.com/aureliushq/ink/internal/config"
 	"github.com/spf13/cobra"
 )
 
 // initCmd represents the init command
-func newInitCommand(cfg *config.Config) *cobra.Command {
+func newInitCommand(app *App) *cobra.Command {
 	initCmd := &cobra.Command{
 		Use:   "init",
 		Short: "A brief description of your command",
