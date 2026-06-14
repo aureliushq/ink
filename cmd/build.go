@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/aureliushq/ink/internal/content"
 	"github.com/spf13/cobra"
 )
 
@@ -15,6 +16,22 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			paths := content.DiscoverContentFiles(app.Config.Build.ContentDir, app.Logger)
+			allContent := []content.Content{}
+			for _, path := range paths {
+				content := content.NewContent()
+				content.Path = path
+
+				err := content.ReadFile()
+				if err != nil {
+					app.Logger.Error(err)
+					return err
+				}
+				allContent = append(allContent, content)
+			}
+			return nil
+		},
 	}
 	// Here you will define your flags and configuration settings.
 
