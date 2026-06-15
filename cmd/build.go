@@ -17,15 +17,17 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			paths := content.DiscoverContentFiles(app.Config.Build.ContentDir, app.Logger)
+			paths, err := content.DiscoverFiles(app.Config.Build.ContentDir, app.Logger)
+			if err != nil {
+				return err
+			}
 			allContent := []content.Content{}
 			for _, path := range paths {
 				content := content.NewContent()
-				content.Path = path
+				content.SourcePath = path
 
-				err := content.ReadFile()
+				err := content.Unmarshal(app.Config.Build)
 				if err != nil {
-					app.Logger.Error(err)
 					return err
 				}
 				allContent = append(allContent, content)
@@ -33,14 +35,5 @@ to quickly create a Cobra application.`,
 			return nil
 		},
 	}
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// buildCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// buildCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	return buildCmd
 }
