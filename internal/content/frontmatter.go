@@ -8,7 +8,8 @@ import (
 type Status int
 
 const (
-	StatusDraft Status = iota
+	StatusNil Status = iota
+	StatusDraft
 	StatusPublished
 )
 
@@ -49,6 +50,8 @@ func (frontmatter *Frontmatter) Parse(lines []string) error {
 				frontmatter.Status = StatusDraft
 			case "published":
 				frontmatter.Status = StatusPublished
+			default:
+				frontmatter.Status = StatusNil
 			}
 		case strings.HasPrefix(line, "createdAt"):
 			parts := strings.SplitN(line, ":", 2)
