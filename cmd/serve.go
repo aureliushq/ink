@@ -29,21 +29,12 @@ func newServeCommand(app *App) *cobra.Command {
 			app.Logger.Info("Starting server...", "addr", srv.Addr)
 			err = srv.ListenAndServe()
 			if !errors.Is(err, http.ErrServerClosed) {
-				app.Logger.Error("Failed to start server", "error", err)
 				return err
 			}
 			return nil
 		},
 	}
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// serveCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
 	serveCmd.Flags().String("host", "localhost", "Host for the server, defaults to localhost")
 	serveCmd.Flags().Int64("port", 8782, "Port for the server, defaults to 8782")
 	return serveCmd
