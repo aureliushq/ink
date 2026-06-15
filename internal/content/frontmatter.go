@@ -21,6 +21,8 @@ type Frontmatter struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	PublishedAt time.Time
+	SeriesID    string
+	SeriesOrder int
 }
 
 func NewFrontmatter() Frontmatter {
