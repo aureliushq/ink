@@ -6,14 +6,16 @@ import (
 	"os"
 
 	"github.com/aureliushq/ink/internal/config"
+	"github.com/aureliushq/ink/internal/renderer"
 	"github.com/charmbracelet/fang"
 	"github.com/charmbracelet/log"
 	"github.com/spf13/cobra"
 )
 
 type App struct {
-	Config *config.Config
-	Logger *log.Logger
+	Config        *config.Config
+	Logger        *log.Logger
+	TemplateCache *renderer.TemplateCache
 }
 
 func newApp() *App {
@@ -37,8 +39,14 @@ and more out-of-the-box.`,
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 			cfg := config.NewConfig()
 			app.Config = cfg
-
 			if err := config.Setup(app.Config); err != nil {
+				fmt.Println(err)
+				return err
+			}
+
+			templateCache := renderer.NewTemplateCache()
+			app.TemplateCache = templateCache
+			if err := templateCache.Setup(app.Config); err != nil {
 				fmt.Println(err)
 				return err
 			}
