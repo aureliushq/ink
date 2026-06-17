@@ -1,5 +1,6 @@
 [site]
-title       = "Ink"
+title       = "Ilango Rajagopal"
+subtitle 	= "Software Engineer, Maker, Coffee Nerd, Adventure Motorcyclist"
 base_url    = "https://ink.aurelius.ink"
 author      = "Ilango Rajagopal"
 description = "Yet another super simple static site generator"
@@ -10,8 +11,8 @@ description = "Yet another super simple static site generator"
 # mono    = "mono"
 # source  = "system"    # system | google | self
 
-# [theme]
-# name   = "default"    # selects an embedded built-in theme
+[theme]
+name   = "default"    # selects an embedded built-in theme
 # mode   = "system"     # light | dark | system
 # accent = "#3b82f6"
 

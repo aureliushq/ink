@@ -3,7 +3,9 @@ Copyright © 2026 Ilango Rajagopal <hey@i4o.dev>
 */
 package main
 
-import "github.com/aureliushq/ink/cmd"
+import (
+	"github.com/aureliushq/ink/cmd"
+)
 
 func main() {
 	cmd.Execute()
