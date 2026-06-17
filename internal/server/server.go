@@ -35,12 +35,5 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// tmpl, err := template.ParseFiles(targetFile)
-	// if err != nil {
-	// 	http.Error(w, "404 page not found", http.StatusNotFound)
-	// 	return
-	// }
-	// tmpl.Execute(w, nil)
-
 	http.ServeFile(w, r, targetFile)
 }

@@ -2,6 +2,7 @@ package renderer
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"io/fs"
 	"os"
@@ -68,7 +69,12 @@ func (tc *TemplateCache) Setup(cfg *config.Config) error {
 func (tc *TemplateCache) Execute(name string, templateData TemplateData) (string, error) {
 	html := new(bytes.Buffer)
 
-	if err := tc.Files[name].ExecuteTemplate(html, "base", templateData); err != nil {
+	t, ok := tc.Files[name]
+	if !ok {
+		return "", fmt.Errorf("template not found in cache: %s", name)
+	}
+
+	if err := t.ExecuteTemplate(html, "base", templateData); err != nil {
 		return "", err
 	}
 
