@@ -1,0 +1,7 @@
+{{define "content"}}
+<main class="[&_p]:text-muted-foreground">
+	<h2>{{.CollectionTitle}}</h2>
+	<p>{{.Description}}</p>
+	{{block "collection_list" .}}{{end}}
+</main>
+{{end}}

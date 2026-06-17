@@ -1,0 +1,55 @@
+{{define "base"}}
+<!doctype html>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<link rel="sitemap" href="/sitemap-index.xml" />
+		<!-- Place favicon.ico in the root directory -->
+
+		<link rel="stylesheet" href="/output.css" type="text/css" />
+
+		<!-- Canonical URL -->
+		<link rel="canonical" href="{canonicalURL}" />
+
+		<!-- Primary Meta Tags -->
+		<title>{title}</title>
+		<meta name="title" content="{{.SiteTitle}}" />
+		<meta name="description" content="{{.Description}}" />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="{{.PageURL}}" />
+		<meta property="og:title" content="{{.SiteTitle}}" />
+		<meta property="og:description" content="{{.Description}}" />
+		<!-- TODO: set og:image correctly -->
+		<!-- <meta property="og:image" content="{new" URL(image.src, Astro.url)} /> -->
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content="{{.PageURL}}" />
+		<meta property="twitter:title" content="{{.SiteTitle}}" />
+		<meta property="twitter:description" content="{{.Description}}" />
+		<!-- TODO: set twitter:image correctly -->
+		<!-- <meta property="twitter:image" content="{new" URL(image.src, Astro.url)} /> -->
+	</head>
+	<body>
+		<!--[if lt IE 8]>
+			<p class="browserupgrade">
+				You are using an <strong>outdated</strong> browser. Please
+				<a href="http://browsehappy.com/">upgrade your browser</a> to improve
+				your experience.
+			</p>
+		<![endif]-->
+		<div class="mx-auto w-full max-w-2xl px-6 py-16">
+			{{template "partials/header" .}}
+			<br />
+			{{block "content" .}}{{end}}
+		</div>
+	</body>
+</html>
+{{end}}
