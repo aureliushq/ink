@@ -1,12 +1,13 @@
 ---
 title: Ilango Rajagopal
+subtitle: Software Engineer, Maker, Coffee Nerd, Adventure Motorcyclist
+content_type: page
 ---
 
 I'm a developer and an open-source enthusiast. I build
-open-source apps and tools with TypeScript, React, React Router,
-Node.js, and Golang. I sometimes write blog posts on my
-(mis)adventures in building software, open source, indie
-hacking, and learning.
+open-source apps and tools with TypeScript, React/Node, and Golang. 
+I sometimes write blog posts on my (mis)adventures in building software, 
+open source, indiehacking, and learning.
 
 By day, I work at [Workday](https://workday.com) on [FlowiseAI](https://flowiseai.com).
 By later day, I work on personal projects. I am passionate

@@ -1,6 +1,7 @@
 ---
 title: Now
 description: This is my "now" page - a snapshot of what I'm currently focused on and what's keeping me busy these days.
+content_type: page
 ---
 
 ## What I'm focusing on
