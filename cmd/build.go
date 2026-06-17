@@ -1,7 +1,12 @@
 package cmd
 
 import (
+	"html/template"
+	"os"
+	"strings"
+
 	"github.com/aureliushq/ink/internal/content"
+	"github.com/aureliushq/ink/internal/renderer"
 	"github.com/spf13/cobra"
 )
 
@@ -16,6 +21,9 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+		// PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+		// 	return nil
+		// },
 		RunE: func(cmd *cobra.Command, args []string) error {
 			paths, err := content.DiscoverFiles(app.Config.Build.ContentDir, app.Logger)
 			if err != nil {
@@ -32,6 +40,35 @@ to quickly create a Cobra application.`,
 				}
 				allContent = append(allContent, content)
 			}
+
+			for _, content := range allContent {
+				// TODO: remove this later when we're handling collections correctly
+				if !strings.HasPrefix(content.Slug, "/posts") {
+					templateData := renderer.NewTemplateData()
+					templateData.SiteTitle = app.Config.Site.Title
+					templateData.SiteSubtitle = app.Config.Site.Subtitle
+					templateData.Title = content.Frontmatter.Title
+					templateData.Subtitle = content.Frontmatter.Subtitle
+					templateData.Description = content.Frontmatter.Description
+					templateData.Content = template.HTML(content.HTMLBody)
+
+					// TODO: figure out how to use the correct template file
+					html, err := app.TemplateCache.Execute("index.html", templateData)
+					if err != nil {
+						return err
+					}
+					f, err := os.OpenFile(content.DestinationPath, os.O_RDWR|os.O_CREATE, 0644)
+					if err != nil {
+						return err
+					}
+					defer f.Close()
+
+					if _, err = f.WriteString(html); err != nil {
+						return err
+					}
+				}
+			}
+
 			return nil
 		},
 	}
