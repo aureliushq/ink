@@ -12,6 +12,7 @@ type Config struct {
 
 type SiteConfig struct {
 	Title       string `mapstructure:"title"`
+	Subtitle    string `mapstructure:"subtitle"`
 	Description string `mapstructure:"description"`
 	BaseURL     string `mapstructure:"base_url"`
 	Author      string `mapstructure:"author"`

@@ -21,7 +21,6 @@ type Content struct {
 	DestinationPath string
 	Slug            string
 	ShouldBuild     bool
-	MarkdownBody    string
 	HTMLBody        string
 }
 
@@ -44,7 +43,11 @@ func (content *Content) Unmarshal(buildConfig config.BuildConfig) error {
 	dir, fileName := path.Split(content.SourcePath)
 	fileExt := path.Ext(content.SourcePath)
 	slug := strings.Replace(fileName, fileExt, "", 1)
-	content.Slug = path.Join(strings.Replace(dir, buildConfig.ContentDir, "", 1), slug)
+	if slug == "index" {
+		content.Slug = path.Join(strings.Replace(dir, buildConfig.ContentDir, "", 1), "/")
+	} else {
+		content.Slug = path.Join(strings.Replace(dir, buildConfig.ContentDir, "", 1), slug)
+	}
 	content.DestinationPath = path.Join(buildConfig.OutputDir, fmt.Sprintf("%s.%s", slug, "html"))
 
 	scanner := bufio.NewScanner(file)
@@ -78,7 +81,6 @@ func (content *Content) Unmarshal(buildConfig config.BuildConfig) error {
 	body := strings.Join(bodyLines, "\n")
 
 	content.Frontmatter = frontmatter
-	content.MarkdownBody = body
 	html, err := convertToHTML(body)
 	if err != nil {
 		return err

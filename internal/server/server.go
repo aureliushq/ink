@@ -2,7 +2,6 @@ package server
 
 import (
 	"fmt"
-	"html/template"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -20,13 +19,13 @@ func NewServer(host string, port int64) *http.Server {
 }
 
 func pageHandler(w http.ResponseWriter, r *http.Request) {
-	path := filepath.Clean(r.URL.Path)
+	slug := filepath.Clean(r.URL.Path)
 
-	if path == "/" {
-		path = "index.html"
+	if slug == "/" {
+		slug = "index.html"
 	}
 
-	targetFile := filepath.Join("public", "demo", path)
+	targetFile := filepath.Join("public", slug)
 	if filepath.Ext(targetFile) == "" {
 		targetFile += ".html"
 	}
@@ -36,10 +35,12 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl, err := template.ParseFiles(targetFile)
-	if err != nil {
-		http.Error(w, "404 page not found", http.StatusNotFound)
-		return
-	}
-	tmpl.Execute(w, nil)
+	// tmpl, err := template.ParseFiles(targetFile)
+	// if err != nil {
+	// 	http.Error(w, "404 page not found", http.StatusNotFound)
+	// 	return
+	// }
+	// tmpl.Execute(w, nil)
+
+	http.ServeFile(w, r, targetFile)
 }
