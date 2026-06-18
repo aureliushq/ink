@@ -3,7 +3,6 @@ package cmd
 import (
 	"context"
 	"embed"
-	"fmt"
 	"os"
 
 	"github.com/aureliushq/ink/internal/config"
@@ -37,25 +36,9 @@ func NewRootCommand(themesFS embed.FS) *cobra.Command {
 Write content in markdown, bring your own HTML+CSS templates, deploy anywhere.
 Supports CommonMark and GFM. Comes with syntax highlighting, footnotes and margin notes,
 and more out-of-the-box.`,
-		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-			cfg := config.NewConfig()
-			app.Config = cfg
-			if err := config.Setup(app.Config); err != nil {
-				fmt.Println(err)
-				return err
-			}
-
-			templateCache := renderer.NewTemplateCache()
-			app.TemplateCache = templateCache
-			if err := templateCache.Setup(app.Config, themesFS); err != nil {
-				fmt.Println(err)
-				return err
-			}
-			return nil
-		},
 	}
 
-	rootCmd.AddCommand(newBuildCommand(app))
+	rootCmd.AddCommand(newBuildCommand(app, themesFS))
 	rootCmd.AddCommand(newInitCommand(app))
 	rootCmd.AddCommand(newServeCommand(app))
 	return rootCmd

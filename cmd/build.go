@@ -1,18 +1,19 @@
 package cmd
 
 import (
+	"embed"
 	"html/template"
 	"os"
 	"path"
 	"strings"
 
-	"github.com/aureliushq/ink/internal/content"
+	"github.com/aureliushq/ink/internal/build"
 	"github.com/aureliushq/ink/internal/renderer"
 	"github.com/spf13/cobra"
 )
 
 // buildCmd represents the build command
-func newBuildCommand(app *App) *cobra.Command {
+func newBuildCommand(app *App, themesFS embed.FS) *cobra.Command {
 	buildCmd := &cobra.Command{
 		Use:   "build",
 		Short: "Build the static site from content files",
@@ -22,29 +23,32 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-		RunE: func(cmd *cobra.Command, args []string) error {
-			paths, err := content.DiscoverFiles(app.Config.Build.ContentDir, app.Logger)
+		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			cfg, err := build.InitConfig()
 			if err != nil {
 				return err
 			}
-			allContent := []content.Content{}
-			for _, path := range paths {
-				content := content.NewContent()
-				content.SourcePath = path
 
-				err := content.Unmarshal(app.Config.Build)
-				if err != nil {
-					return err
-				}
-				allContent = append(allContent, content)
+			templateCache, err := build.InitTemplateCache(cfg, app.Logger, themesFS)
+			if err != nil {
+				return err
+			}
+
+			app.Config = cfg
+			app.TemplateCache = templateCache
+
+			return nil
+		},
+		RunE: func(cmd *cobra.Command, args []string) error {
+			allContent, err := build.ReadContent(app.Config.Build, app.Logger)
+			if err != nil {
+				return err
 			}
 
 			for _, content := range allContent {
 				// TODO: remove this later when we're handling collections correctly
 				if !strings.HasPrefix(content.Slug, "/posts") {
-					templateData := renderer.NewTemplateData()
-					templateData.SiteTitle = app.Config.Site.Title
-					templateData.SiteSubtitle = app.Config.Site.Subtitle
+					templateData := renderer.NewTemplateData(app.Config)
 					templateData.Title = content.Frontmatter.Title
 					templateData.Subtitle = content.Frontmatter.Subtitle
 					templateData.Description = content.Frontmatter.Description
