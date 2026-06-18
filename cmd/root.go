@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"embed"
 	"fmt"
 	"os"
 
@@ -26,7 +27,7 @@ func newApp() *App {
 }
 
 // rootCmd represents the base command when called without any subcommands
-func NewRootCommand() *cobra.Command {
+func NewRootCommand(themesFS embed.FS) *cobra.Command {
 	app := newApp()
 
 	rootCmd := &cobra.Command{
@@ -46,7 +47,7 @@ and more out-of-the-box.`,
 
 			templateCache := renderer.NewTemplateCache()
 			app.TemplateCache = templateCache
-			if err := templateCache.Setup(app.Config); err != nil {
+			if err := templateCache.Setup(app.Config, themesFS); err != nil {
 				fmt.Println(err)
 				return err
 			}
@@ -62,8 +63,8 @@ and more out-of-the-box.`,
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	rootCmd := NewRootCommand()
+func Execute(themesFS embed.FS) {
+	rootCmd := NewRootCommand(themesFS)
 	if err := fang.Execute(context.Background(), rootCmd); err != nil {
 		os.Exit(1)
 	}

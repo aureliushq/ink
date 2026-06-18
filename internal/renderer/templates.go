@@ -2,10 +2,10 @@ package renderer
 
 import (
 	"bytes"
+	"embed"
 	"fmt"
 	"html/template"
 	"io/fs"
-	"os"
 	"path"
 	"path/filepath"
 
@@ -36,15 +36,9 @@ func NewTemplateData() TemplateData {
 	return TemplateData{}
 }
 
-func (tc *TemplateCache) Setup(cfg *config.Config) error {
-	cwd, err := os.Getwd()
-	if err != nil {
-		return err
-	}
-
-	fileSystem := os.DirFS(cwd)
+func (tc *TemplateCache) Setup(cfg *config.Config, themesFS embed.FS) error {
 	templatePath := path.Join("themes", cfg.Theme.Name, "*.html")
-	pages, err := fs.Glob(fileSystem, templatePath)
+	pages, err := fs.Glob(themesFS, templatePath)
 	if err != nil {
 		return err
 	}
@@ -58,7 +52,7 @@ func (tc *TemplateCache) Setup(cfg *config.Config) error {
 			page,
 		}
 
-		ts := template.Must(template.New(name).ParseFS(fileSystem, patterns...))
+		ts := template.Must(template.New(name).ParseFS(themesFS, patterns...))
 
 		tc.Files[name] = ts
 	}
