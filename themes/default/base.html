@@ -18,22 +18,25 @@
 
 		<!-- Primary Meta Tags -->
 		<title>{title}</title>
-		<meta name="title" content="{{.SiteTitle}}" />
-		<meta name="description" content="{{.Description}}" />
+		<meta name="title" content="{{.Config.Site.Title}}" />
+		<meta name="description" content="{{.Config.Site.Description}}" />
 
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="{{.PageURL}}" />
-		<meta property="og:title" content="{{.SiteTitle}}" />
-		<meta property="og:description" content="{{.Description}}" />
+		<meta property="og:title" content="{{.Config.Site.Title}}" />
+		<meta property="og:description" content="{{.Config.Site.Description}}" />
 		<!-- TODO: set og:image correctly -->
 		<!-- <meta property="og:image" content="{new" URL(image.src, Astro.url)} /> -->
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
 		<meta property="twitter:url" content="{{.PageURL}}" />
-		<meta property="twitter:title" content="{{.SiteTitle}}" />
-		<meta property="twitter:description" content="{{.Description}}" />
+		<meta property="twitter:title" content="{{.Config.Site.Title}}" />
+		<meta
+			property="twitter:description"
+			content="{{.Config.Site.Description}}"
+		/>
 		<!-- TODO: set twitter:image correctly -->
 		<!-- <meta property="twitter:image" content="{new" URL(image.src, Astro.url)} /> -->
 	</head>

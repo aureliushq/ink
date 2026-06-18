@@ -1,8 +1,8 @@
 {{define "partials/header"}}
 <header class="mb-24 leading-snug [&_p]:my-0">
 	<p>
-		<a class="font-medium no-underline" href="/">{{.SiteTitle}}</a>
+		<a class="font-medium no-underline" href="/">{{.Config.Site.Title}}</a>
 	</p>
-	<p class="text-muted-foreground">{{.SiteSubtitle}}</p>
+	<p class="text-muted-foreground">{{.Config.Site.Subtitle}}</p>
 </header>
 {{end}}
