@@ -6,11 +6,22 @@ import (
 	"fmt"
 	"html/template"
 	"io/fs"
+	"os"
 	"path"
 	"path/filepath"
+	"slices"
 
 	"github.com/aureliushq/ink/internal/config"
+	"github.com/charmbracelet/log"
 )
+
+var TEMPLATE_RESERVED_NAMES = []string{
+	"base.html",
+	"index.html",
+	"page.html",
+	"list.html",
+	"single.html",
+}
 
 type TemplateCache struct {
 	Files map[string]*template.Template
@@ -23,17 +34,18 @@ func NewTemplateCache() *TemplateCache {
 }
 
 type TemplateData struct {
-	SiteTitle    string
-	SiteSubtitle string
-	Title        string
-	Description  string
-	Subtitle     string
-	PageURL      string
-	Content      template.HTML
+	Config      *config.Config
+	Title       string
+	Description string
+	Subtitle    string
+	PageURL     string
+	Content     template.HTML
 }
 
-func NewTemplateData() TemplateData {
-	return TemplateData{}
+func NewTemplateData(cfg *config.Config) TemplateData {
+	return TemplateData{
+		Config: cfg,
+	}
 }
 
 func (tc *TemplateCache) Setup(cfg *config.Config, themesFS embed.FS) error {
@@ -43,16 +55,82 @@ func (tc *TemplateCache) Setup(cfg *config.Config, themesFS embed.FS) error {
 		return err
 	}
 
+	if len(pages) == 0 {
+		availableThemes := []string{}
+		entries, err := os.ReadDir("themes")
+		if err != nil {
+			return err
+		}
+		for _, entry := range entries {
+			if entry.IsDir() {
+				availableThemes = append(availableThemes, entry.Name())
+			}
+		}
+		return fmt.Errorf("theme \"%s\" not found. Available themes: %v", cfg.Theme.Name, availableThemes)
+	}
+
 	for _, page := range pages {
 		name := filepath.Base(page)
 
+		if !slices.Contains(TEMPLATE_RESERVED_NAMES, name) {
+			return fmt.Errorf("template name doesn't match reserved names: %s", name)
+		}
+
 		patterns := []string{
 			path.Join("themes", cfg.Theme.Name, "base.html"),
-			path.Join("themes", cfg.Theme.Name, "partials", "header.html"),
+			path.Join("themes", cfg.Theme.Name, "partials", "*.html"),
 			page,
 		}
 
-		ts := template.Must(template.New(name).ParseFS(themesFS, patterns...))
+		ts, err := template.New(name).ParseFS(themesFS, patterns...)
+		if err != nil {
+			return err
+		}
+
+		tc.Files[name] = ts
+	}
+
+	for _, name := range TEMPLATE_RESERVED_NAMES {
+		if _, ok := tc.Files[name]; !ok {
+			return fmt.Errorf("theme %q is missing, required template: %s", cfg.Theme.Name, name)
+		}
+	}
+
+	return nil
+}
+
+func (tc *TemplateCache) Overrides(cfg *config.Config, logger *log.Logger) error {
+	cwd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+
+	fileSystem := os.DirFS(cwd)
+
+	templatePath := path.Join("layouts", "*.html")
+	pages, err := fs.Glob(fileSystem, templatePath)
+	if err != nil {
+		return err
+	}
+
+	for _, page := range pages {
+		name := filepath.Base(page)
+
+		base, ok := tc.Files[name]
+		if !ok {
+			logger.Warnf("layout is not in template cache: %s", name)
+			continue
+		}
+
+		ts, err := base.Clone()
+		if err != nil {
+			return err
+		}
+
+		_, err = ts.ParseFS(fileSystem, page)
+		if err != nil {
+			return err
+		}
 
 		tc.Files[name] = ts
 	}
