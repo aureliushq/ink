@@ -7,21 +7,24 @@ import (
 	"io/fs"
 	"os"
 	"path"
+	"path/filepath"
 	"strings"
 
 	"github.com/aureliushq/ink/internal/config"
 	"github.com/charmbracelet/log"
 	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/renderer/html"
 )
 
 type Content struct {
-	Frontmatter     Frontmatter
-	SourcePath      string
+	Collection      string
 	DestinationPath string
-	Slug            string
-	ShouldBuild     bool
+	Frontmatter     Frontmatter
 	HTMLBody        string
+	ShouldBuild     bool
+	SourcePath      string
+	Slug            string
 }
 
 func NewContent() Content {
@@ -40,15 +43,40 @@ func (content *Content) Unmarshal(buildConfig config.BuildConfig) error {
 	}
 	defer file.Close()
 
-	dir, fileName := path.Split(content.SourcePath)
-	fileExt := path.Ext(content.SourcePath)
-	slug := strings.Replace(fileName, fileExt, "", 1)
-	if slug == "index" {
-		content.Slug = path.Join(strings.Replace(dir, buildConfig.ContentDir, "", 1), "/")
-	} else {
-		content.Slug = path.Join(strings.Replace(dir, buildConfig.ContentDir, "", 1), slug)
+	dir := path.Dir(content.SourcePath)
+	fileName := path.Base(content.SourcePath)
+	contentDir := strings.Replace(dir, buildConfig.ContentDir, "", 1)
+	contentDir = strings.Replace(path.Clean(contentDir), "/", "", 1)
+	for _, collection := range buildConfig.Collections {
+		match, err := filepath.Match(collection, contentDir)
+		if err != nil {
+			return err
+		}
+		if match {
+			content.Collection = contentDir
+		}
 	}
-	content.DestinationPath = path.Join(buildConfig.OutputDir, fmt.Sprintf("%s.%s", slug, "html"))
+
+	fileExt := path.Ext(content.SourcePath)
+	name := strings.Replace(fileName, fileExt, "", 1)
+	if content.Collection != "" {
+		if name == "index" {
+			content.Slug = path.Join(content.Collection, "/", "index")
+		} else {
+			content.Slug = path.Join(content.Collection, name)
+		}
+		content.DestinationPath = path.Join(buildConfig.OutputDir, fmt.Sprintf("%s.%s", content.Slug, "html"))
+	} else {
+		fmt.Println(name)
+		if name == "index" {
+			content.Slug = path.Join(contentDir, "/")
+		} else {
+			content.Slug = path.Join(contentDir, name, "index")
+		}
+		content.DestinationPath = path.Join(buildConfig.OutputDir, fmt.Sprintf("%s.%s", content.Slug, "html"))
+		fmt.Println(content.DestinationPath)
+		fmt.Println("---------------------")
+	}
 
 	scanner := bufio.NewScanner(file)
 	seenHR := false
@@ -96,8 +124,11 @@ func (content *Content) Unmarshal(buildConfig config.BuildConfig) error {
 
 func convertToHTML(md string) (string, error) {
 	gm := goldmark.New(
+		goldmark.WithExtensions(
+			extension.GFM,
+		),
 		goldmark.WithRendererOptions(
-			html.WithHardWraps(),
+			html.WithUnsafe(),
 		),
 	)
 	var buf bytes.Buffer

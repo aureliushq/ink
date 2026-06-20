@@ -24,9 +24,10 @@ type ThemeConfig struct {
 }
 
 type BuildConfig struct {
-	ContentDir string `mapstructure:"content"`
-	OutputDir  string `mapstructure:"output"`
-	Drafts     bool   `mapstructure:"drafts"`
+	Collections []string `mapstructure:"collections"`
+	ContentDir  string   `mapstructure:"content"`
+	OutputDir   string   `mapstructure:"output"`
+	Drafts      bool     `mapstructure:"drafts"`
 }
 
 func NewConfig() *Config {

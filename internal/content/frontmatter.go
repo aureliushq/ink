@@ -13,15 +13,6 @@ const (
 	StatusPublished
 )
 
-type ContentType int
-
-const (
-	ContentTypePage ContentType = iota
-	ContentTypeCollection
-	ContentTypeCollectionList
-	ContentTypeCollectionItem
-)
-
 type Frontmatter struct {
 	Title       string
 	Subtitle    string
@@ -33,7 +24,6 @@ type Frontmatter struct {
 	PublishedAt time.Time
 	SeriesID    string
 	SeriesOrder int
-	ContentType ContentType
 }
 
 func NewFrontmatter() Frontmatter {
@@ -87,16 +77,6 @@ func (frontmatter *Frontmatter) Parse(lines []string) error {
 		case strings.HasPrefix(line, "series_order"):
 			// TODO: handle series_order
 			continue
-		case strings.HasPrefix(line, "content_type"):
-			parts := strings.SplitN(line, ":", 2)
-			switch parts[1] {
-			case "page":
-				frontmatter.ContentType = ContentTypePage
-			case "collection_item":
-				frontmatter.ContentType = ContentTypeCollectionItem
-			default:
-				frontmatter.ContentType = ContentTypeCollection
-			}
 		default:
 			continue
 		}
