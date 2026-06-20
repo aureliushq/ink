@@ -14,31 +14,32 @@
 		<link rel="stylesheet" href="/static/main.css" type="text/css" />
 
 		<!-- Canonical URL -->
-		<link rel="canonical" href="{canonicalURL}" />
+		<link rel="canonical" href="{{.PageURL}}" />
 
 		<!-- Primary Meta Tags -->
-		<title>{title}</title>
-		<meta name="title" content="{{.Config.Site.Title}}" />
-		<meta name="description" content="{{.Config.Site.Description}}" />
+		<title>{{.Title}}</title>
+		<meta name="title" content="{{.Title}}" />
+		<meta name="description" content="{{.Description}}" />
 
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="{{.PageURL}}" />
-		<meta property="og:title" content="{{.Config.Site.Title}}" />
-		<meta property="og:description" content="{{.Config.Site.Description}}" />
+		<meta property="og:title" content="{{.Title}}" />
+		<meta property="og:description" content="{{.Description}}" />
+		{{/*
 		<!-- TODO: set og:image correctly -->
 		<!-- <meta property="og:image" content="{new" URL(image.src, Astro.url)} /> -->
+		*/}}
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
 		<meta property="twitter:url" content="{{.PageURL}}" />
-		<meta property="twitter:title" content="{{.Config.Site.Title}}" />
-		<meta
-			property="twitter:description"
-			content="{{.Config.Site.Description}}"
-		/>
+		<meta property="twitter:title" content="{{.Title}}" />
+		<meta property="twitter:description" content="{{.Description}}" />
+		{{/*
 		<!-- TODO: set twitter:image correctly -->
 		<!-- <meta property="twitter:image" content="{new" URL(image.src, Astro.url)} /> -->
+		*/}}
 	</head>
 	<body>
 		<!--[if lt IE 8]>
@@ -49,9 +50,7 @@
 			</p>
 		<![endif]-->
 		<div class="mx-auto w-full max-w-2xl px-6 py-16">
-			{{template "partials/header" .}}
-			<br />
-			{{block "content" .}}{{end}}
+			{{template "partials/header" .}} {{block "content" .}}{{end}}
 		</div>
 	</body>
 </html>
