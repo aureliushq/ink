@@ -1,15 +1,18 @@
 ---
-title: Ilango Rajagopal
-content_type: page
+title: About Me
 ---
 
-I'm a developer and an open-source enthusiast. I build open-source apps and tools with TypeScript, React/Node, and Golang. I sometimes write blog posts on my (mis)adventures in building software, open source, indiehacking, and learning.
+## Hey, I'm Ilango
 
-By day, I work at [Workday](https://workday.com) on [FlowiseAI](https://flowiseai.com). By later day, I work on personal projects. I am passionate about building tools that make my life easier and I enjoy the process of crafting something from scratch.
+I'm a software engineer and maker passionate about open-source software, linux, systems, and AI. I'm a Senior Software Engineer at [Workday](https://workday.com) working on [FlowiseAI](https://flowiseai.com), building a low-code platform for building AI agents. I've previously worked at several early-stage and growth-stage SaaS startups.
 
-Nowadays, I spend most of my free time building [Kobun](https://kobun.io), a modern GitHub-powered CMS for developers. I'm also getting better at Golang.
+On the side, I am building: 
+- [Ink](https://github.com/aureliushq/ink), a simple static site generator
+- [Kobun](https://kobun.io), a modern GitHub-powered CMS for developers
 
-Outside of programming, I enjoy [reading books](/reading) and playing video games. I also love anime, manga, and F1.
+I also spend time on learning new technologies and writing about the things I learn. My areas of interests are OSS, Linux, DevOps, and System Design.
 
-I live in Bangalore, India. Do reach out for a cup of coffee or a chat if you're around here!
+Recently, I've been diving deep into the internals of different technologies like DNS, BitTorrent, Redis, etc. I share my learnings through my [blog](/posts), [X](https://x.com/0xi4o), and [Instagram](https://www.instagram.com/ilango.builds.stuff).
+
+Outside of tech, I enjoy [reading books and manga](/reading). I occasionally play video games. I also love watching anime and F1.
 

@@ -1,8 +1,6 @@
 ---
 title: Ambitious Projects
-description: >-
-  This is a small journal entry about a few ambitious projects that inspire me.
-  And also about my anxiety when I think about my own ambitious project ideas.
+description: This is a small journal entry about a few ambitious projects that inspire me. And also about my anxiety when I think about my own ambitious project ideas.
 tags:
   - journal
   - side-projects

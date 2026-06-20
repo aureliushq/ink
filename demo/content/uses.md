@@ -1,8 +1,8 @@
 ---
 title:  Devices, Tools, and Tech Stack 
-description: Here's my daily toolkit - everything from dev tools to everyday apps and hardware. It covers both my professional setup for software development, as well as the stuff I use outside of work. 
-content_type: page
 ---
+
+Here's my daily toolkit - everything from dev tools to everyday apps and hardware. It covers both my professional setup for software development, as well as the stuff I use outside of work.
 
 ## Desktop
 

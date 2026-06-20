@@ -1,27 +1,23 @@
 ---
 title: Now
-description: This is my now page - a snapshot of what I'm currently focused on and what's keeping me busy these days.
-content_type: page
 ---
 
-## What I'm focusing on
+This is my now page - a snapshot of what I'm currently focused on and what's keeping me busy these days.
 
-I'm currently working full-time as a Senior Software Engineer at [Workday](https://workday.com) building [FlowiseAI](https://flowiseai.com).
+## Working
 
-In my free time, I'm building [Kobun](https://kobun.io) - a modern GitHub-powered CMS for developers.
+I'm a Senior Software Engineer at [Workday](https://workday.com) working on [FlowiseAI](https://flowiseai.com), building a low-code platform for building AI agents. 
 
-I started learning Go late last year and I'm finally feeling comfortable with it. This year, I'm pushing myself to master the language.
+## Building
 
-## What I'm working towards
+- [Ink](https://github.com/aureliushq/ink), a simple static site generator
+- [Kobun](https://kobun.io), a modern GitHub-powered CMS for developers
 
-I'm working on turning one of my side projects into a sustainable source of income. While I've built several projects over the years, I haven't seriously tried to monetize any of them. This time, I'm focusing on building something people would actually pay for, even if it's just enough to cover hosting costs at first.
+## Reading
 
-I'm also working on growing my portfolio of projects. Rather than learning half-finished ideas collect dust, I'm committed to building and shipping smaller, focused projects. The goal is to have a collection of work that showcases both my technical skills and my ability to solve real problems.
-
-## What I'm reading
-
-I usually have two books going at once - a fiction for fun and a non-fiction for learning. Sometimes I'll throw in a technical book if something catches my eye. If you're curious about what I've read before, check out my reading page.
+- AI Engineering by Chip Huyen
+- The Great Gatsby by F. Scott Fitzgerald
 
 ## What I'm playing
 
-Here's what's keeping me entertained lately: Elden Ring. I can't believe I was holding out on playing this amazing game. FromSoftware have built a mesmerising world and I'm completely hooked.
+- Elden Ring NG+1
