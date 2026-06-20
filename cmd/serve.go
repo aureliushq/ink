@@ -24,7 +24,7 @@ func newServeCommand(app *App) *cobra.Command {
 				return nil
 			}
 
-			srv := server.NewServer(host, port)
+			srv := server.NewServer(app.Config, host, port)
 
 			app.Logger.Info("Starting server...", "addr", srv.Addr)
 			err = srv.ListenAndServe()

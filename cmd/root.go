@@ -5,6 +5,7 @@ import (
 	"embed"
 	"os"
 
+	"github.com/aureliushq/ink/internal/build"
 	"github.com/aureliushq/ink/internal/config"
 	"github.com/aureliushq/ink/internal/renderer"
 	"github.com/charmbracelet/fang"
@@ -36,6 +37,22 @@ func NewRootCommand(themesFS embed.FS) *cobra.Command {
 Write content in markdown, bring your own HTML+CSS templates, deploy anywhere.
 Supports CommonMark and GFM. Comes with syntax highlighting, footnotes and margin notes,
 and more out-of-the-box.`,
+		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			cfg, err := build.InitConfig()
+			if err != nil {
+				return err
+			}
+
+			templateCache, err := build.InitTemplateCache(cfg, app.Logger, themesFS)
+			if err != nil {
+				return err
+			}
+
+			app.Config = cfg
+			app.TemplateCache = templateCache
+
+			return nil
+		},
 	}
 
 	rootCmd.AddCommand(newBuildCommand(app, themesFS))
