@@ -18,6 +18,6 @@ I'm a Senior Software Engineer at [Workday](https://workday.com) working on [Flo
 - AI Engineering by Chip Huyen
 - The Great Gatsby by F. Scott Fitzgerald
 
-## What I'm playing
+## Playing
 
 - Elden Ring NG+1
