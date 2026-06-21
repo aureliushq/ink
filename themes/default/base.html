@@ -5,13 +5,17 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<link rel="sitemap" href="/sitemap-index.xml" />
+		<link rel="apple-touch-icon" href="{{.BasePath}}/apple-touch-icon.png" />
+		<link rel="icon" type="image/svg+xml" href="{{.BasePath}}/favicon.svg" />
+		<link rel="icon" href="{{.BasePath}}/favicon.ico" />
+		<link rel="sitemap" href="{{.BasePath}}/sitemap-index.xml" />
 		<!-- Place favicon.ico in the root directory -->
 
-		<link rel="stylesheet" href="/static/main.css" type="text/css" />
+		<link
+			rel="stylesheet"
+			href="{{.BasePath}}/static/main.css"
+			type="text/css"
+		/>
 
 		<!-- Canonical URL -->
 		<link rel="canonical" href="{{.PageURL}}" />
