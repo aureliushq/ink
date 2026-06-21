@@ -3,7 +3,6 @@ package content
 import (
 	"bufio"
 	"bytes"
-	"fmt"
 	"io/fs"
 	"os"
 	"path"
@@ -18,13 +17,14 @@ import (
 )
 
 type Content struct {
+	Frontmatter     Frontmatter
 	Collection      string
 	DestinationPath string
-	Frontmatter     Frontmatter
 	HTMLBody        string
-	ShouldBuild     bool
 	SourcePath      string
 	Slug            string
+	IsIndex         bool
+	ShouldBuild     bool
 }
 
 func NewContent() Content {
@@ -58,24 +58,34 @@ func (content *Content) Unmarshal(buildConfig config.BuildConfig) error {
 	}
 
 	fileExt := path.Ext(content.SourcePath)
-	name := strings.Replace(fileName, fileExt, "", 1)
+	name := strings.TrimSuffix(fileName, fileExt)
+	content.IsIndex = name == "index"
+
+	relDir := contentDir
+	if relDir == "." {
+		relDir = ""
+	}
+
+	var slug string
 	if content.Collection != "" {
-		if name == "index" {
-			content.Slug = path.Join(content.Collection, "/", "index")
+		if content.IsIndex {
+			slug = content.Collection
 		} else {
-			content.Slug = path.Join(content.Collection, name)
+			slug = path.Join(content.Collection, name)
 		}
-		content.DestinationPath = path.Join(buildConfig.OutputDir, fmt.Sprintf("%s.%s", content.Slug, "html"))
 	} else {
-		fmt.Println(name)
-		if name == "index" {
-			content.Slug = path.Join(contentDir, "/")
+		if content.IsIndex {
+			slug = relDir
 		} else {
-			content.Slug = path.Join(contentDir, name, "index")
+			slug = path.Join(relDir, name)
 		}
-		content.DestinationPath = path.Join(buildConfig.OutputDir, fmt.Sprintf("%s.%s", content.Slug, "html"))
-		fmt.Println(content.DestinationPath)
-		fmt.Println("---------------------")
+	}
+	content.Slug = slug
+
+	if slug == "" {
+		content.DestinationPath = path.Join(buildConfig.OutputDir, "index.html")
+	} else {
+		content.DestinationPath = path.Join(buildConfig.OutputDir, slug, "index.html")
 	}
 
 	scanner := bufio.NewScanner(file)
