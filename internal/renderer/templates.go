@@ -42,7 +42,9 @@ type TemplateData struct {
 	Subtitle    string
 	PageURL     string
 	BasePath    string
+	Slug        string
 	Content     template.HTML
+	Items       []TemplateData
 }
 
 func NewTemplateData(cfg *config.Config) TemplateData {

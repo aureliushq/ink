@@ -33,6 +33,24 @@ to quickly create a Cobra application.`,
 				return err
 			}
 
+			collections := map[string][]renderer.TemplateData{}
+			for _, collection := range app.Config.Build.Collections {
+				items := []renderer.TemplateData{}
+				for _, content := range allContent {
+					if content.Collection == collection && !content.IsIndex {
+						templateData := renderer.NewTemplateData(app.Config)
+						templateData.Title = content.Frontmatter.Title
+						templateData.Subtitle = content.Frontmatter.Subtitle
+						templateData.Description = content.Frontmatter.Description
+						templateData.Content = template.HTML(content.HTMLBody)
+						templateData.PageURL = renderer.PageURL(app.Config.Site.BaseURL, content.Slug)
+						templateData.Slug = path.Join(content.Slug)
+						items = append(items, templateData)
+					}
+				}
+				collections[collection] = items
+			}
+
 			for _, content := range allContent {
 				templateData := renderer.NewTemplateData(app.Config)
 				templateData.Title = content.Frontmatter.Title
@@ -44,6 +62,7 @@ to quickly create a Cobra application.`,
 				var templateName string
 				switch {
 				case content.Collection != "" && content.IsIndex:
+					templateData.Items = collections[content.Collection]
 					templateName = "list.html"
 				case content.Collection != "":
 					templateName = "single.html"
