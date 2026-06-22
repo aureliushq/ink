@@ -6,10 +6,12 @@ import (
 	"fmt"
 	"html/template"
 	"io/fs"
+	"net/url"
 	"os"
 	"path"
 	"path/filepath"
 	"slices"
+	"strings"
 
 	"github.com/aureliushq/ink/internal/config"
 	"github.com/charmbracelet/log"
@@ -39,13 +41,31 @@ type TemplateData struct {
 	Description string
 	Subtitle    string
 	PageURL     string
+	BasePath    string
 	Content     template.HTML
 }
 
 func NewTemplateData(cfg *config.Config) TemplateData {
 	return TemplateData{
-		Config: cfg,
+		Config:   cfg,
+		BasePath: BasePath(cfg.Site.BaseURL),
 	}
+}
+
+func BasePath(path string) string {
+	u, err := url.Parse(path)
+	if err != nil {
+		return ""
+	}
+	return strings.TrimSuffix(u.Path, "/")
+}
+
+func PageURL(baseURL, slug string) string {
+	baseURL = strings.TrimSuffix(baseURL, "/")
+	if slug == "" {
+		return slug + "/"
+	}
+	return path.Join(baseURL, slug) + "/"
 }
 
 func (tc *TemplateCache) Setup(cfg *config.Config, themesFS embed.FS) error {
