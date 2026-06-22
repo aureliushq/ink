@@ -1,9 +1,6 @@
 ---
 title: All my side projects are dead
-description: >-
-  I haven't updated any of my projects in a while and I also stopped using most
-  of them. Some of them are still useful but it's fine to move on from projects
-  that are no longer needed.
+description: I haven't updated any of my projects in a while and I also stopped using most of them. Some of them are still useful but it's fine to move on from projects that are no longer needed.
 tags:
   - side-projects
   - journal

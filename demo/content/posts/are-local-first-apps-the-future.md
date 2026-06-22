@@ -1,9 +1,6 @@
 ---
 title: Are local-first apps the future?
-description: >-
-  While I don't think local-first is a one-size-fits-all way to build apps, I
-  think they'll become ubiquitous. And a lot more developers are going to build
-  local-first features into their apps.
+description: While I don't think local-first is a one-size-fits-all way to build apps, I think they'll become ubiquitous. And a lot more developers are going to build local-first features into their apps.
 tags:
   - side-projects
   - local-first

@@ -1,8 +1,6 @@
 ---
 title: All the things you can do with Javascript optional chaining
-description: >-
-  In this article, I talk about optional chaining and all the things that we can
-  do with it apart from reading nested object properties.
+description: In this article, I talk about optional chaining and all the things that we can do with it apart from reading nested object properties.
 tags:
   - uncategorized
 status: published

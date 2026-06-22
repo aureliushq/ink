@@ -1,9 +1,6 @@
 ---
 title: Automating my Tmux workflow using smug
-description: >-
-  I recently automated more of my development workflow — this time for tmux. I
-  used a CLI tool called smug and wrote configurations for automatically setting
-  up my tmux sessions.
+description: I recently automated more of my development workflow — this time for tmux. I used a CLI tool called smug and wrote configurations for automatically setting up my tmux sessions.
 tags:
   - productivity
   - golang

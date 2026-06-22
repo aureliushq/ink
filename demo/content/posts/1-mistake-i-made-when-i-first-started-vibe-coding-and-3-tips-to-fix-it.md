@@ -1,8 +1,6 @@
 ---
 title: 1 Mistake I Made When I First Started Vibe Coding And 3 Tips To Fix It
-description: I wasted hours letting AI do the thinking for me. Here are 3
-  lessons I learned the hard way about vibe coding side projects—so you don't
-  have to.
+description: I wasted hours letting AI do the thinking for me. Here are 3 lessons I learned the hard way about vibe coding side projects—so you don't have to.
 tags:
   - journal
   - vibe coding
