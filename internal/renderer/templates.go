@@ -64,10 +64,11 @@ func BasePath(path string) string {
 
 func PageURL(baseURL, slug string) string {
 	baseURL = strings.TrimSuffix(baseURL, "/")
+	slug = strings.Trim(slug, "/")
 	if slug == "" {
-		return slug + "/"
+		return baseURL + "/"
 	}
-	return path.Join(baseURL, slug) + "/"
+	return baseURL + "/" + slug + "/"
 }
 
 func (tc *TemplateCache) Setup(cfg *config.Config, themesFS embed.FS) error {
