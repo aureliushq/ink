@@ -43,6 +43,7 @@ type TemplateData struct {
 	PageURL     string
 	BasePath    string
 	Slug        string
+	Tags        []string
 	Content     template.HTML
 	Items       []TemplateData
 }

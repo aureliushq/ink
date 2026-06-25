@@ -1,20 +1,39 @@
 package content
 
 import (
-	"bufio"
 	"bytes"
 	"io/fs"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/aureliushq/ink/internal/config"
 	"github.com/charmbracelet/log"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
+	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
+	fm "go.abhg.dev/goldmark/frontmatter"
 )
+
+type Frontmatter struct {
+	Title       string    `yaml:"title"`
+	Subtitle    string    `yaml:"subtitle"`
+	Description string    `yaml:"description"`
+	Tags        []string  `yaml:"tags"`
+	Status      string    `yaml:"status"`
+	CreatedAt   time.Time `yaml:"created_at"`
+	UpdatedAt   time.Time `yaml:"updated_at"`
+	PublishedAt time.Time `yaml:"published_at"`
+	SeriesID    string    `yaml:"series_id"`
+	SeriesOrder int       `yaml:"series_order"`
+}
+
+func NewFrontmatter() Frontmatter {
+	return Frontmatter{}
+}
 
 type Content struct {
 	Frontmatter     Frontmatter
@@ -34,14 +53,10 @@ func NewContent() Content {
 }
 
 func (content *Content) Unmarshal(buildConfig config.BuildConfig) error {
-	frontmatterLines := []string{}
-	bodyLines := []string{}
-
-	file, err := os.OpenFile(content.SourcePath, os.O_RDONLY, 0644)
+	file, err := os.ReadFile(content.SourcePath)
 	if err != nil {
 		return err
 	}
-	defer file.Close()
 
 	dir := path.Dir(content.SourcePath)
 	fileName := path.Base(content.SourcePath)
@@ -88,64 +103,36 @@ func (content *Content) Unmarshal(buildConfig config.BuildConfig) error {
 		content.DestinationPath = path.Join(buildConfig.OutputDir, slug, "index.html")
 	}
 
-	scanner := bufio.NewScanner(file)
-	seenHR := false
-	contentStart := false
-	for scanner.Scan() {
-		line := scanner.Text()
-		if line == "---" && seenHR {
-			contentStart = true
-			continue
-		}
-		if line == "---" && !seenHR {
-			seenHR = true
-			continue
-		}
-		if !contentStart {
-			frontmatterLines = append(frontmatterLines, line)
-		} else {
-			bodyLines = append(bodyLines, line)
-		}
-	}
-	if err = scanner.Err(); err != nil {
-		return err
-	}
-
-	frontmatter := NewFrontmatter()
-	if err = frontmatter.Parse(frontmatterLines); err != nil {
-		return err
-	}
-
-	body := strings.Join(bodyLines, "\n")
-
-	content.Frontmatter = frontmatter
-	html, err := convertToHTML(body)
-	if err != nil {
-		return err
-	}
-	content.HTMLBody = html
-
-	if content.Frontmatter.Status != StatusNil && content.Frontmatter.Status == StatusDraft && !buildConfig.Drafts {
-		content.ShouldBuild = false
-	}
-
-	return nil
-}
-
-func convertToHTML(md string) (string, error) {
 	gm := goldmark.New(
 		goldmark.WithExtensions(
 			extension.GFM,
+			&fm.Extender{},
 		),
 		goldmark.WithRendererOptions(
 			html.WithUnsafe(),
 		),
 	)
+
 	var buf bytes.Buffer
-	if err := gm.Convert([]byte(md), &buf); err != nil {
-		return "", err
+	ctx := parser.NewContext()
+	if err := gm.Convert(file, &buf, parser.WithContext(ctx)); err != nil {
+		return err
 	}
-	return buf.String(), nil
+
+	frontmatterData := fm.Get(ctx)
+	var frontmatter Frontmatter
+	if err = frontmatterData.Decode(&frontmatter); err != nil {
+		return err
+	}
+
+	content.Frontmatter = frontmatter
+	content.HTMLBody = buf.String()
+
+	if content.Frontmatter.Status != "" && content.Frontmatter.Status == "draft" && !buildConfig.Drafts {
+		content.ShouldBuild = false
+	}
+
+	return nil
 }
 
 func DiscoverFiles(contentDir string, logger *log.Logger) ([]string, error) {
