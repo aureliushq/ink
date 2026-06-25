@@ -1,1 +1,91 @@
 #+title: Ink - Yet another super simple static site generator
+
+Ink is yet another super simple static site generator. Write content in
+markdown, bring your own HTML+CSS templates, deploy anywhere. Supports
+CommonMark and GFM. Comes with syntax highlighting, footnotes and margin
+notes, and more out-of-the-box.
+
+* Installation
+
+** Install script (Linux / macOS)
+
+#+begin_src sh
+curl -fsSL https://raw.githubusercontent.com/aureliushq/ink/main/install.sh | sh
+#+end_src
+
+Install a specific version or change the install directory with environment
+variables:
+
+#+begin_src sh
+INK_VERSION=v1.2.3 INK_INSTALL="$HOME/.local/bin" \
+  curl -fsSL https://raw.githubusercontent.com/aureliushq/ink/main/install.sh | sh
+#+end_src
+
+** Prebuilt binaries
+
+Download the binary for your platform from the
+[[https://github.com/aureliushq/ink/releases][releases page]], then make it
+executable and put it on your =PATH=:
+
+#+begin_src sh
+chmod +x ink_*_linux_amd64
+mv ink_*_linux_amd64 /usr/local/bin/ink
+#+end_src
+
+On Windows, download the =.exe= and place it somewhere on your =PATH=.
+
+** Go install
+
+#+begin_src sh
+go install github.com/aureliushq/ink@latest
+#+end_src
+
+* Usage
+
+** Build a site
+
+Run from your site's root directory (where =ink.toml= lives):
+
+#+begin_src sh
+ink build
+#+end_src
+
+This reads =content/=, applies your templates, and writes the static site to
+the output directory (=public/= by default).
+
+** Serve locally with live reload
+
+#+begin_src sh
+ink serve
+#+end_src
+
+Serves the site at =http://localhost:8782= with live reloading. Override the
+host and port:
+
+#+begin_src sh
+ink serve --host 0.0.0.0 --port 3000
+#+end_src
+
+** Version
+
+#+begin_src sh
+ink version      # version, commit, and build date
+ink --version    # short version line (also: ink -v)
+#+end_src
+
+* GitHub Action
+
+Build your site in CI with a single step. The action downloads the prebuilt
+binary for the runner and runs =ink build= from your repo root.
+
+#+begin_src yaml
+- uses: aureliushq/ink@v1
+  with:
+    version: latest          # release tag (e.g. v1.2.3) or "latest"
+    method: binary           # "binary" (default) or "go-install"
+    args: ""                 # extra args passed to `ink build`
+    working-directory: .     # site root
+#+end_src
+
+See [[file:docs/DISTRIBUTION.md][docs/DISTRIBUTION.md]] for the release and
+distribution details.

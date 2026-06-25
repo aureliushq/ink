@@ -62,24 +62,18 @@ runs:
         esac
 
         if [ "$os" = "windows" ]; then
-          ext="zip"
+          asset="ink_${version}_${os}_${arch}.exe"
+          binname="ink.exe"
         else
-          ext="tar.gz"
+          asset="ink_${version}_${os}_${arch}"
+          binname="ink"
         fi
-
-        asset="ink_${version}_${os}_${arch}.${ext}"
         echo "Downloading $asset from $repo@$tag"
 
-        tmp="$(mktemp -d)"
-        gh release download "$tag" --repo "$repo" --pattern "$asset" --dir "$tmp"
-
-        bindir="$tmp/bin"
-        mkdir -p "$bindir"
-        if [ "$ext" = "zip" ]; then
-          unzip -o "$tmp/$asset" -d "$bindir"
-        else
-          tar -xzf "$tmp/$asset" -C "$bindir"
-        fi
+        bindir="$(mktemp -d)"
+        gh release download "$tag" --repo "$repo" --pattern "$asset" --dir "$bindir"
+        mv "$bindir/$asset" "$bindir/$binname"
+        chmod +x "$bindir/$binname"
 
         echo "$bindir" >> "$GITHUB_PATH"
 

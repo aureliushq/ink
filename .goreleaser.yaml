@@ -29,17 +29,12 @@ builds:
 
 archives:
   - id: ink
-    formats: [tar.gz]
+    formats: [binary]
     name_template: >-
       {{ .ProjectName }}_
       {{- .Version }}_
       {{- .Os }}_
       {{- .Arch }}
-    format_overrides:
-      - goos: windows
-        formats: [zip]
-    files:
-      - README.org
 
 checksum:
   name_template: "checksums.txt"
