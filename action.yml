@@ -1,0 +1,104 @@
+name: "Ink Static Site Generator"
+description: "Build a static site with ink. Downloads a prebuilt release binary (or installs via Go) and runs `ink build`."
+branding:
+  icon: "feather"
+  color: "purple"
+
+inputs:
+  version:
+    description: "ink version to use: a release tag (e.g. v1.2.3) or 'latest'."
+    required: false
+    default: "latest"
+  method:
+    description: "How to obtain ink: 'binary' (download prebuilt release) or 'go-install'."
+    required: false
+    default: "binary"
+  args:
+    description: "Extra arguments passed to `ink build`."
+    required: false
+    default: ""
+  working-directory:
+    description: "Directory to run the build from (site root)."
+    required: false
+    default: "."
+  token:
+    description: "GitHub token used to download release assets (avoids rate limits)."
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install ink (binary)
+      if: inputs.method == 'binary'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        INPUT_VERSION: ${{ inputs.version }}
+      run: |
+        set -euo pipefail
+
+        repo="aureliushq/ink"
+
+        # Resolve the release tag.
+        if [ "$INPUT_VERSION" = "latest" ]; then
+          tag="$(gh release view --repo "$repo" --json tagName --jq .tagName)"
+        else
+          tag="$INPUT_VERSION"
+        fi
+        version="${tag#v}"
+
+        # Map runner OS/arch to GoReleaser naming.
+        case "$RUNNER_OS" in
+          Linux)   os="linux" ;;
+          macOS)   os="darwin" ;;
+          Windows) os="windows" ;;
+          *) echo "Unsupported OS: $RUNNER_OS" >&2; exit 1 ;;
+        esac
+        case "$RUNNER_ARCH" in
+          X64)   arch="amd64" ;;
+          ARM64) arch="arm64" ;;
+          *) echo "Unsupported arch: $RUNNER_ARCH" >&2; exit 1 ;;
+        esac
+
+        if [ "$os" = "windows" ]; then
+          ext="zip"
+        else
+          ext="tar.gz"
+        fi
+
+        asset="ink_${version}_${os}_${arch}.${ext}"
+        echo "Downloading $asset from $repo@$tag"
+
+        tmp="$(mktemp -d)"
+        gh release download "$tag" --repo "$repo" --pattern "$asset" --dir "$tmp"
+
+        bindir="$tmp/bin"
+        mkdir -p "$bindir"
+        if [ "$ext" = "zip" ]; then
+          unzip -o "$tmp/$asset" -d "$bindir"
+        else
+          tar -xzf "$tmp/$asset" -C "$bindir"
+        fi
+
+        echo "$bindir" >> "$GITHUB_PATH"
+
+    - name: Install ink (go install)
+      if: inputs.method == 'go-install'
+      shell: bash
+      env:
+        INPUT_VERSION: ${{ inputs.version }}
+      run: |
+        set -euo pipefail
+        go install "github.com/aureliushq/ink@${INPUT_VERSION}"
+        echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+    - name: Build site
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        INPUT_ARGS: ${{ inputs.args }}
+      run: |
+        set -euo pipefail
+        ink version
+        ink build $INPUT_ARGS

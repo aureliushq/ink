@@ -12,6 +12,13 @@ import (
 //go:embed themes/*
 var themes embed.FS
 
+// Build information. Populated at build time via -ldflags -X.
+var (
+	version = "dev"
+	commit  = "none"
+	date    = "unknown"
+)
+
 func main() {
-	cmd.Execute(themes)
+	cmd.Execute(themes, cmd.BuildInfo{Version: version, Commit: commit, Date: date})
 }

@@ -1,0 +1,67 @@
+# GoReleaser configuration for ink.
+# Docs: https://goreleaser.com
+version: 2
+
+project_name: ink
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: ink
+    main: .
+    binary: ink
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X main.version={{ .Version }}
+      - -X main.commit={{ .Commit }}
+      - -X main.date={{ .Date }}
+
+archives:
+  - id: ink
+    formats: [tar.gz]
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- .Arch }}
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - README.org
+
+checksum:
+  name_template: "checksums.txt"
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "merge conflict"
+      - Merge pull request
+      - Merge branch
+
+release:
+  github:
+    owner: aureliushq
+    name: ink
+  draft: false
+  prerelease: auto

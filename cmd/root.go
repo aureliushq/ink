@@ -13,22 +13,31 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// BuildInfo carries version metadata stamped at build time via -ldflags.
+type BuildInfo struct {
+	Version string
+	Commit  string
+	Date    string
+}
+
 type App struct {
 	Config        *config.Config
 	Logger        *log.Logger
 	TemplateCache *renderer.TemplateCache
+	Build         BuildInfo
 }
 
-func newApp() *App {
+func newApp(buildInfo BuildInfo) *App {
 	logger := log.NewWithOptions(os.Stdout, log.Options{ReportCaller: true, ReportTimestamp: true})
 	return &App{
 		Logger: logger,
+		Build:  buildInfo,
 	}
 }
 
 // rootCmd represents the base command when called without any subcommands
-func NewRootCommand(themesFS embed.FS) *cobra.Command {
-	app := newApp()
+func NewRootCommand(themesFS embed.FS, buildInfo BuildInfo) *cobra.Command {
+	app := newApp(buildInfo)
 
 	rootCmd := &cobra.Command{
 		Use:   "ink",
@@ -38,6 +47,12 @@ Write content in markdown, bring your own HTML+CSS templates, deploy anywhere.
 Supports CommonMark and GFM. Comes with syntax highlighting, footnotes and margin notes,
 and more out-of-the-box.`,
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			// The version command reports build metadata and must work
+			// outside of a site directory, so skip config/template init.
+			if cmd.Name() == "version" {
+				return nil
+			}
+
 			cfg, err := build.InitConfig()
 			if err != nil {
 				return err
@@ -58,14 +73,20 @@ and more out-of-the-box.`,
 	rootCmd.AddCommand(newBuildCommand(app, themesFS))
 	rootCmd.AddCommand(newInitCommand(app))
 	rootCmd.AddCommand(newServeCommand(app))
+	rootCmd.AddCommand(newVersionCommand(app))
 	return rootCmd
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute(themesFS embed.FS) {
-	rootCmd := NewRootCommand(themesFS)
-	if err := fang.Execute(context.Background(), rootCmd); err != nil {
+func Execute(themesFS embed.FS, buildInfo BuildInfo) {
+	rootCmd := NewRootCommand(themesFS, buildInfo)
+	if err := fang.Execute(
+		context.Background(),
+		rootCmd,
+		fang.WithVersion(buildInfo.Version),
+		fang.WithCommit(buildInfo.Commit),
+	); err != nil {
 		os.Exit(1)
 	}
 }
