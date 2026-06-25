@@ -65,6 +65,7 @@ to quickly create a Cobra application.`,
 					templateData.Items = collections[content.Collection]
 					templateName = "list.html"
 				case content.Collection != "":
+					templateData.Tags = content.Frontmatter.Tags
 					templateName = "single.html"
 				case content.IsIndex:
 					templateName = "index.html"

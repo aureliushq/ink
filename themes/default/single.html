@@ -1,6 +1,9 @@
 {{define "content"}}
 <main>
 	<h2>{{.Title}}</h2>
+	{{range .Tags}}
+	<span>{{.}}</span>
+	{{end}}
 	<p>{{.Content}}</p>
 </main>
 {{end}}
