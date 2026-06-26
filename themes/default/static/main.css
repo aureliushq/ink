@@ -94,7 +94,7 @@
 		@apply my-6 rounded-lg border;
 	}
 	hr {
-		@apply my-16;
+		@apply my-8;
 	}
 	blockquote {
 		@apply my-16 font-serif text-2xl;
