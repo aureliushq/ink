@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/aureliushq/ink/internal/assets"
 	"github.com/aureliushq/ink/internal/build"
@@ -33,9 +34,11 @@ to quickly create a Cobra application.`,
 				return err
 			}
 
+			app.Logger.Infof("Total Content Found: %d", len(allContent))
+
 			collections := map[string][]renderer.TemplateData{}
 			for _, collection := range app.Config.Build.Collections {
-				items := []renderer.TemplateData{}
+				collectionItems := []renderer.TemplateData{}
 				for _, content := range allContent {
 					if content.Collection == collection && !content.IsIndex {
 						templateData := renderer.NewTemplateData(app.Config)
@@ -45,11 +48,30 @@ to quickly create a Cobra application.`,
 						templateData.Content = template.HTML(content.HTMLBody)
 						templateData.PageURL = renderer.PageURL(app.Config.Site.BaseURL, content.Slug)
 						templateData.Slug = path.Join(content.Slug)
-						items = append(items, templateData)
+						collectionItems = append(collectionItems, templateData)
 					}
 				}
-				collections[collection] = items
+				collections[collection] = collectionItems
 			}
+
+			series := map[string][]renderer.TemplateData{}
+			seriesList := []renderer.TemplateData{}
+			for _, content := range allContent {
+				templateData := renderer.NewTemplateData(app.Config)
+				templateData.Title = content.Frontmatter.Title
+				templateData.Subtitle = content.Frontmatter.Subtitle
+				templateData.Description = content.Frontmatter.Description
+				templateData.Content = template.HTML(content.HTMLBody)
+				templateData.PageURL = renderer.PageURL(app.Config.Site.BaseURL, content.Slug)
+				templateData.Slug = path.Join(content.Slug)
+				if content.IsSeries && !content.IsIndex {
+					series[content.Frontmatter.SeriesID] = append(series[content.Frontmatter.SeriesID], templateData)
+				} else if content.IsSeries && content.IsIndex && !strings.HasSuffix(content.Slug, "series") {
+					seriesList = append(seriesList, templateData)
+				}
+			}
+
+			app.Logger.Infof("Total Series Found: %d", len(series))
 
 			for _, content := range allContent {
 				templateData := renderer.NewTemplateData(app.Config)
@@ -61,6 +83,14 @@ to quickly create a Cobra application.`,
 
 				var templateName string
 				switch {
+				case content.IsSeries && content.IsIndex && strings.HasSuffix(content.Slug, "series"):
+					templateData.Items = seriesList
+					templateName = "list.html"
+				case content.IsSeries && content.IsIndex && content.Frontmatter.SeriesID != "":
+					templateData.Items = series[content.Frontmatter.SeriesID]
+					templateName = "list.html"
+				case content.IsSeries && !content.IsIndex && content.Frontmatter.SeriesID != "":
+					templateName = "single.html"
 				case content.Collection != "" && content.IsIndex:
 					templateData.Items = collections[content.Collection]
 					templateName = "list.html"

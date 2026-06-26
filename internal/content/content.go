@@ -42,7 +42,9 @@ type Content struct {
 	HTMLBody        string
 	SourcePath      string
 	Slug            string
+	SeriesID        string
 	IsIndex         bool
+	IsSeries        bool
 	ShouldBuild     bool
 }
 
@@ -62,6 +64,9 @@ func (content *Content) Unmarshal(buildConfig config.BuildConfig) error {
 	fileName := path.Base(content.SourcePath)
 	contentDir := strings.Replace(dir, buildConfig.ContentDir, "", 1)
 	contentDir = strings.Replace(path.Clean(contentDir), "/", "", 1)
+
+	content.IsSeries = strings.HasPrefix(contentDir, "series")
+
 	for _, collection := range buildConfig.Collections {
 		match, err := filepath.Match(collection, contentDir)
 		if err != nil {
