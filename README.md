@@ -1,7 +1,4 @@
----
-author: Ilango
-title: Ink - Yet another super simple static site generator
----
+# Ink - Yet another super simple static site generator
 
 Ink is yet another super simple static site generator. Write content in
 markdown, bring your own HTML+CSS templates, deploy anywhere. Supports
