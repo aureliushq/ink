@@ -1,5 +1,5 @@
 ---
-title: "Build Your Own DNS Server in Go — Part 3: Parsing the Header"
+title: "Parsing the Header"
 description: The 12-byte DNS header holds the message ID, flags, and section counts. We decode it into a struct and prepare to answer the question.
 tags:
   - go

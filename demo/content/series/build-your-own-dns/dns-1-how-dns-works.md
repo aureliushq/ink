@@ -1,5 +1,5 @@
 ---
-title: "Build Your Own DNS Server in Go — Part 1: How DNS Works"
+title: "How DNS Works"
 description: Before writing any code we map out the DNS request/response flow and the structure of a DNS message so the rest of the series makes sense.
 tags:
   - go

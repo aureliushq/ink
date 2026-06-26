@@ -1,5 +1,5 @@
 ---
-title: "Build Your Own Redis in Go — Part 2: Parsing the RESP Protocol"
+title: "Parsing the RESP Protocol"
 description: Redis clients and servers communicate using RESP. Here we write a small parser that turns raw bytes into commands we can act on.
 tags:
   - go

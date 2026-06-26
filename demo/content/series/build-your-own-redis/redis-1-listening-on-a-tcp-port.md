@@ -1,5 +1,5 @@
 ---
-title: "Build Your Own Redis in Go — Part 1: Listening on a TCP Port"
+title: "Listening on a TCP Port"
 description: Kicking off the series by opening a TCP socket and accepting client connections, the foundation every Redis server is built on.
 tags:
   - go

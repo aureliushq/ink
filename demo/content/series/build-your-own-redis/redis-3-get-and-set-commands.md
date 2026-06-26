@@ -1,5 +1,5 @@
 ---
-title: "Build Your Own Redis in Go — Part 3: GET and SET"
+title: "GET and SET"
 description: With parsing in place, we implement an in-memory key/value store and wire up the GET and SET commands so our server actually does something useful.
 tags:
   - go

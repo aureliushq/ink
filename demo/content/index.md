@@ -12,7 +12,7 @@ I build/tinker on [side projects](/projects) in my free time. Right now, I am bu
 
 I also spend time on learning new technologies and writing about the things I learn. My areas of interests are OSS, Linux, DevOps, and System Design.
 
-Recently, I've been diving deep into the internals of different technologies like DNS, BitTorrent, Redis, etc. I share my learnings through my [blog](/posts), [X](https://x.com/0xi4o), and [Instagram](https://www.instagram.com/ilango.builds.stuff).
+Recently, I've been diving deep into the internals of different technologies like DNS, BitTorrent, Redis, etc. I share my learnings through my [articles](/articles), [series](/series), [X](https://x.com/0xi4o), and [Instagram](https://www.instagram.com/ilango.builds.stuff).
 
 Outside of tech, I enjoy [reading books and manga](/reading). I occasionally play video games. I also love watching anime and F1.
 

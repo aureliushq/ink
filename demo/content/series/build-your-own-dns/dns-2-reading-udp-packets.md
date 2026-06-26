@@ -1,5 +1,5 @@
 ---
-title: "Build Your Own DNS Server in Go — Part 2: Reading UDP Packets"
+title: "Reading UDP Packets"
 description: DNS speaks UDP. We bind to port 53 and read raw query packets into a buffer, ready to be decoded.
 tags:
   - go
