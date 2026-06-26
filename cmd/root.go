@@ -71,7 +71,7 @@ and more out-of-the-box.`,
 	}
 
 	rootCmd.AddCommand(newBuildCommand(app, themesFS))
-	rootCmd.AddCommand(newInitCommand(app))
+	// rootCmd.AddCommand(newInitCommand(app))
 	rootCmd.AddCommand(newServeCommand(app))
 	rootCmd.AddCommand(newVersionCommand(app))
 	return rootCmd
