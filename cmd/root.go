@@ -28,7 +28,7 @@ type App struct {
 }
 
 func newApp(buildInfo BuildInfo) *App {
-	logger := log.NewWithOptions(os.Stdout, log.Options{ReportCaller: true, ReportTimestamp: true})
+	logger := log.New(os.Stdout)
 	return &App{
 		Logger: logger,
 		Build:  buildInfo,
