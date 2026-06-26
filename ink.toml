@@ -22,7 +22,7 @@ name   = "default"    # selects an embedded built-in theme
 # line_numbers = false
 
 [build]
-collections = ["posts", "projects/*"]
+collections = ["articles", "projects/*"]
 content = "demo/content"
 drafts  = false
 output  = "public"
