@@ -22,7 +22,10 @@ var TEMPLATE_RESERVED_NAMES = []string{
 	"index.html",
 	"page.html",
 	"list.html",
+	"series.html",
+	"series_list.html",
 	"single.html",
+	"tags.html",
 }
 
 type TemplateCache struct {
@@ -46,6 +49,8 @@ type TemplateData struct {
 	Tags        []string
 	Content     template.HTML
 	Items       []TemplateData
+	ItemOrder   int
+	TotalItems  int
 }
 
 func NewTemplateData(cfg *config.Config) TemplateData {

@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"embed"
+	"fmt"
 	"html/template"
 	"os"
 	"path"
@@ -73,6 +74,8 @@ to quickly create a Cobra application.`,
 
 			app.Logger.Infof("Total Series Found: %d", len(series))
 
+			fmt.Println("----------------------------------------")
+
 			for _, content := range allContent {
 				templateData := renderer.NewTemplateData(app.Config)
 				templateData.Title = content.Frontmatter.Title
@@ -81,15 +84,22 @@ to quickly create a Cobra application.`,
 				templateData.Content = template.HTML(content.HTMLBody)
 				templateData.PageURL = renderer.PageURL(app.Config.Site.BaseURL, content.Slug)
 
+				app.Logger.Info(content.SourcePath)
+
 				var templateName string
 				switch {
 				case content.IsSeries && content.IsIndex && strings.HasSuffix(content.Slug, "series"):
 					templateData.Items = seriesList
-					templateName = "list.html"
+					templateName = "series.html"
 				case content.IsSeries && content.IsIndex && content.Frontmatter.SeriesID != "":
+					templateData.Tags = content.Frontmatter.Tags
 					templateData.Items = series[content.Frontmatter.SeriesID]
-					templateName = "list.html"
+					templateData.TotalItems = len(series[content.Frontmatter.SeriesID])
+					templateName = "series_list.html"
 				case content.IsSeries && !content.IsIndex && content.Frontmatter.SeriesID != "":
+					templateData.Tags = content.Frontmatter.Tags
+					templateData.ItemOrder = content.Frontmatter.SeriesOrder
+					templateData.TotalItems = len(series[content.Frontmatter.SeriesID])
 					templateName = "single.html"
 				case content.Collection != "" && content.IsIndex:
 					templateData.Items = collections[content.Collection]
@@ -121,6 +131,8 @@ to quickly create a Cobra application.`,
 					return err
 				}
 			}
+
+			fmt.Println("----------------------------------------")
 
 			if err := assets.Copy(app.Config, themesFS, app.Logger); err != nil {
 				return err
