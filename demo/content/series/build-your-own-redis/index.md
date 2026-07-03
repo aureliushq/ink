@@ -4,7 +4,7 @@ description: A from-scratch walkthrough of building a minimal Redis-compatible s
 tags:
   - go
   - redis
-status: published
+status: completed
 createdAt: 2025-01-06
 publishedAt: 2025-01-06
 updatedAt: 2025-01-20
