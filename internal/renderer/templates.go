@@ -141,17 +141,17 @@ func (tc *TemplateCache) Overrides(cfg *config.Config, logger *log.Logger) error
 	if err != nil {
 		return err
 	}
+	partialPath := path.Join("layouts", "partials", "*.html")
+	partials, err := fs.Glob(fileSystem, partialPath)
+	if err != nil {
+		return err
+	}
+	pages = append(pages, partials...)
 
 	for _, page := range pages {
 		name := filepath.Base(page)
 
-		base, ok := tc.Files[name]
-		if !ok {
-			logger.Warnf("layout is not in template cache: %s", name)
-			continue
-		}
-
-		if name == "base.html" {
+		if name == "base.html" || path.Dir(page) == path.Join("layouts", "partials") {
 			for pageName, pageTemplate := range tc.Files {
 				ts, err := pageTemplate.Clone()
 				if err != nil {
@@ -164,6 +164,12 @@ func (tc *TemplateCache) Overrides(cfg *config.Config, logger *log.Logger) error
 
 				tc.Files[pageName] = ts
 			}
+			continue
+		}
+
+		base, ok := tc.Files[name]
+		if !ok {
+			logger.Warnf("layout is not in template cache: %s", name)
 			continue
 		}
 
