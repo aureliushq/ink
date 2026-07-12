@@ -151,6 +151,22 @@ func (tc *TemplateCache) Overrides(cfg *config.Config, logger *log.Logger) error
 			continue
 		}
 
+		if name == "base.html" {
+			for pageName, pageTemplate := range tc.Files {
+				ts, err := pageTemplate.Clone()
+				if err != nil {
+					return err
+				}
+
+				if _, err := ts.ParseFS(fileSystem, page); err != nil {
+					return err
+				}
+
+				tc.Files[pageName] = ts
+			}
+			continue
+		}
+
 		ts, err := base.Clone()
 		if err != nil {
 			return err
