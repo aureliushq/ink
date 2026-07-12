@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
+	"time"
 
 	"github.com/aureliushq/ink/internal/config"
 	"github.com/charmbracelet/log"
@@ -47,6 +48,9 @@ type TemplateData struct {
 	BasePath    string
 	Slug        string
 	Tags        []string
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	PublishedAt time.Time
 	Content     template.HTML
 	Items       []TemplateData
 	ItemOrder   int

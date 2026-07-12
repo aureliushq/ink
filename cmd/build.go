@@ -46,6 +46,9 @@ to quickly create a Cobra application.`,
 						templateData.Title = content.Frontmatter.Title
 						templateData.Subtitle = content.Frontmatter.Subtitle
 						templateData.Description = content.Frontmatter.Description
+						templateData.CreatedAt = content.Frontmatter.CreatedAt
+						templateData.UpdatedAt = content.Frontmatter.UpdatedAt
+						templateData.PublishedAt = content.Frontmatter.PublishedAt
 						templateData.Content = template.HTML(content.HTMLBody)
 						templateData.PageURL = renderer.PageURL(app.Config.Site.BaseURL, content.Slug)
 						templateData.Slug = path.Join(content.Slug)
@@ -62,6 +65,9 @@ to quickly create a Cobra application.`,
 				templateData.Title = content.Frontmatter.Title
 				templateData.Subtitle = content.Frontmatter.Subtitle
 				templateData.Description = content.Frontmatter.Description
+				templateData.CreatedAt = content.Frontmatter.CreatedAt
+				templateData.UpdatedAt = content.Frontmatter.UpdatedAt
+				templateData.PublishedAt = content.Frontmatter.PublishedAt
 				templateData.Content = template.HTML(content.HTMLBody)
 				templateData.PageURL = renderer.PageURL(app.Config.Site.BaseURL, content.Slug)
 				templateData.Slug = path.Join(content.Slug)
@@ -81,6 +87,9 @@ to quickly create a Cobra application.`,
 				templateData.Title = content.Frontmatter.Title
 				templateData.Subtitle = content.Frontmatter.Subtitle
 				templateData.Description = content.Frontmatter.Description
+				templateData.CreatedAt = content.Frontmatter.CreatedAt
+				templateData.UpdatedAt = content.Frontmatter.UpdatedAt
+				templateData.PublishedAt = content.Frontmatter.PublishedAt
 				templateData.Content = template.HTML(content.HTMLBody)
 				templateData.PageURL = renderer.PageURL(app.Config.Site.BaseURL, content.Slug)
 
