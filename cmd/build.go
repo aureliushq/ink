@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"os"
 	"path"
+	"sort"
 	"strings"
 
 	"github.com/aureliushq/ink/internal/assets"
@@ -55,6 +56,9 @@ to quickly create a Cobra application.`,
 						collectionItems = append(collectionItems, templateData)
 					}
 				}
+				sort.SliceStable(collectionItems, func(i, j int) bool {
+					return collectionItems[i].PublishedAt.After(collectionItems[j].PublishedAt)
+				})
 				collections[collection] = collectionItems
 			}
 
