@@ -39,8 +39,10 @@ to quickly create a Cobra application.`,
 			app.Logger.Infof("Total Content Found: %d", len(allContent))
 
 			collections := map[string][]renderer.TemplateData{}
+			collectionTags := map[string][]string{}
 			for _, collection := range app.Config.Build.Collections {
 				collectionItems := []renderer.TemplateData{}
+				seenTags := map[string]struct{}{}
 				for _, content := range allContent {
 					if content.Collection == collection && !content.IsIndex {
 						templateData := renderer.NewTemplateData(app.Config)
@@ -54,6 +56,13 @@ to quickly create a Cobra application.`,
 						templateData.PageURL = renderer.PageURL(app.Config.Site.BaseURL, content.Slug)
 						templateData.Slug = path.Join(content.Slug)
 						collectionItems = append(collectionItems, templateData)
+						for _, tag := range content.Frontmatter.Tags {
+							if _, ok := seenTags[tag]; ok {
+								continue
+							}
+							seenTags[tag] = struct{}{}
+							collectionTags[collection] = append(collectionTags[collection], tag)
+						}
 					}
 				}
 				sort.SliceStable(collectionItems, func(i, j int) bool {
@@ -116,6 +125,7 @@ to quickly create a Cobra application.`,
 					templateName = "single.html"
 				case content.Collection != "" && content.IsIndex:
 					templateData.Items = collections[content.Collection]
+					templateData.Tags = collectionTags[content.Collection]
 					templateName = "list.html"
 				case content.Collection != "":
 					templateData.Tags = content.Frontmatter.Tags
