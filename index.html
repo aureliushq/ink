@@ -1,0 +1,605 @@
+<!doctype html>
+<!-- ==================================================================
+     LANDING PAGE · English · parchment design system
+     Screen-first product landing page with interactive gallery
+     Sections: Hero · Gallery · Features · Get started · FAQ · Footer
+     No PDF output, designed for browser delivery via Vercel / Netlify / static host
+     ================================================================== -->
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Ink · Yet another static site generator</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta
+			name="description"
+			content="Ink is a small, fast static site generator written in Go. Write content in Markdown, bring your own HTML + CSS templates, and deploy the static output anywhere. A single dependency-free binary."
+		/>
+		<meta
+			property="og:title"
+			content="Ink · Yet another static site generator"
+		/>
+		<meta
+			property="og:description"
+			content="Write in Markdown, bring your own HTML + CSS templates, deploy anywhere. A single dependency-free binary — intentionally smaller and simpler than the big generators."
+		/>
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://github.com/aureliushq/ink" />
+		<meta property="og:locale" content="en_US" />
+		<meta name="twitter:card" content="summary" />
+		<meta
+			name="twitter:title"
+			content="Ink · Yet another static site generator"
+		/>
+		<meta
+			name="twitter:description"
+			content="Write in Markdown, bring your own HTML + CSS templates, deploy anywhere. A single dependency-free binary."
+		/>
+		<link rel="canonical" href="https://github.com/aureliushq/ink" />
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "SoftwareApplication",
+				"name": "Ink",
+				"applicationCategory": "DeveloperApplication",
+				"operatingSystem": "macOS, Linux, Windows",
+				"description": "A small, fast static site generator written in Go. Write content in Markdown, bring your own HTML + CSS templates, and deploy the static output anywhere.",
+				"url": "https://github.com/aureliushq/ink",
+				"softwareVersion": "0.4.5",
+				"author": {
+					"@type": "Person",
+					"name": "Ilango Rajagopal",
+					"url": "https://x.com/0xi4o"
+				},
+				"offers": {
+					"@type": "Offer",
+					"price": "0",
+					"priceCurrency": "USD",
+					"availability": "https://schema.org/InStock"
+				}
+			}
+		</script>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<main class="page">
+			<!-- ============ Hero ============ -->
+			<header class="hero">
+				<div class="eyebrow">
+					<span
+						>Static Site Generator ·
+						<a
+							class="version-link"
+							href="https://github.com/aureliushq/ink/releases"
+							>v0.4.5</a
+						></span
+					>
+					<span class="hero-links">
+						<a
+							href="https://github.com/aureliushq/ink"
+							target="_blank"
+							rel="noopener"
+							aria-label="Ink on GitHub"
+							title="GitHub"
+						>
+							<svg
+								width="18"
+								height="18"
+								viewBox="0 0 16 16"
+								fill="currentColor"
+								aria-hidden="true"
+							>
+								<path
+									d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+								/>
+							</svg>
+						</a>
+						<a
+							href="https://x.com/0xi4o"
+							target="_blank"
+							rel="noopener"
+							aria-label="Author on X"
+							title="X"
+						>
+							<svg
+								width="15"
+								height="15"
+								viewBox="0 0 16 16"
+								fill="currentColor"
+								aria-hidden="true"
+							>
+								<path
+									d="M9.52 6.77 15.48 0h-1.41L8.9 5.88 4.76 0H0l6.25 8.9L0 16h1.41l5.46-6.2L11.24 16H16L9.52 6.77Zm-1.93 2.2-.63-.89L1.92 1.04h2.17l4.06 5.69.63.89 5.28 7.4h-2.17L7.59 8.97Z"
+								/>
+							</svg>
+						</a>
+					</span>
+				</div>
+
+				<h1>Ink</h1>
+
+				<p class="tagline">
+					Purpose-built static site generator. Write your content in Markdown,
+					bring your own templates, and deploy anywhere.
+				</p>
+
+				<div class="hero-install">
+					<code class="cmd"
+						><span class="pr">$</span>curl -fsSL
+						https://raw.githubusercontent.com/aureliushq/ink/main/install.sh |
+						sh</code
+					>
+					<button
+						type="button"
+						class="copy-btn"
+						data-copy="curl -fsSL https://raw.githubusercontent.com/aureliushq/ink/main/install.sh | sh"
+						aria-label="Copy install command"
+					>
+						Copy
+					</button>
+				</div>
+
+				<!-- <div class="hero-cta">
+					 <a class="btn-primary" href="#install">Get started</a>
+					 <a
+					 class="btn-ghost"
+					 href="https://github.com/aureliushq/ink/blob/main/DOCUMENTATION.md"
+					 target="_blank"
+					 rel="noopener"
+					 >Read the docs</a
+					 >
+					 </div> -->
+			</header>
+
+			<!-- ============ 01 · Features ============ -->
+			<section>
+				<div class="section-head">
+					<p class="section-num">01 · Features</p>
+					<h2 class="section-title">
+						Everything a content site needs, nothing it doesn't.
+					</h2>
+				</div>
+
+				<ol class="features">
+					<li>
+						<span class="n">1</span>
+						<span class="body"
+							><b>Markdown content</b
+							><span
+								>Write content in Markdown. Both CommonMark and GitHub-flavored
+								Markdown are supported. Raw HTML passes through untouched.</span
+							></span
+						>
+					</li>
+					<li>
+						<span class="n">2</span>
+						<span class="body"
+							><b>Bring your own templates</b
+							><span
+								>A theme is just base, index, page, list, and single. Override
+								any one or all by dropping a same-named file into a layouts
+								folder — no forking the theme.</span
+							></span
+						>
+					</li>
+					<li>
+						<span class="n">3</span>
+						<span class="body"
+							><b>Built-in themes</b
+							><span
+								>Ink ships with a few themes. Content is all you need for a
+								presentable site. Reach for your own HTML and CSS only when you
+								want to.</span
+							></span
+						>
+					</li>
+					<li>
+						<span class="n">4</span>
+						<span class="body"
+							><b>Collections</b
+							><span
+								>Register a folder as a collection and its index page
+								automatically receives every page inside it to list. Glob
+								patterns scale the same idea to many folders at once. For blog
+								posts, docs, etc.</span
+							></span
+						>
+					</li>
+					<li>
+						<span class="n">5</span>
+						<span class="body"
+							><b>Series</b
+							><span
+								>Group posts into a series with a shared id and an order. Ink
+								generates the per-series index and the index of all series for
+								you.</span
+							></span
+						>
+					</li>
+					<li>
+						<span class="n">6</span>
+						<span class="body"
+							><b>Drafts</b
+							><span
+								>Mark a page as a draft and it stays out of the build until you
+								flip drafts on. Nothing half-finished leaks to production.</span
+							></span
+						>
+					</li>
+					<li>
+						<span class="n">7</span>
+						<span class="body"
+							><b>CI-friendly</b
+							><span
+								>A bundled GitHub Action fetches the release binary and runs the
+								build from your repo root, so publishing on every push is a
+								single line of YAML.</span
+							></span
+						>
+					</li>
+					<li>
+						<span class="n">8</span>
+						<span class="body"
+							><b>Host anywhere</b
+							><span
+								>The output is just HTML, CSS, and assets — no server, no
+								runtime. Ship it to GitHub Pages, Netlify, Cloudflare Pages, S3,
+								or your own box.</span
+							></span
+						>
+					</li>
+				</ol>
+			</section>
+
+			<!-- ============ 03 · Get started ============ -->
+			<section id="install">
+				<div class="section-head">
+					<p class="section-num">02 · Usage</p>
+					<h2 class="section-title">Up and running in under a minute.</h2>
+					<p class="section-lede">
+						Free and open source. One dependency-free binary — no account, no
+						build service. Only an <code>ink.toml</code> and a content directory
+						are ever required.
+					</p>
+				</div>
+
+				<ol class="install-steps">
+					<li>
+						<div>
+							<p class="step-title">Install the binary</p>
+							<p class="step-desc">Linux and macOS.</p>
+
+							<div class="cmd-block">
+								<pre><span class="pr">$</span> curl -fsSL https://raw.githubusercontent.com/aureliushq/ink/main/install.sh | sh</pre>
+								<button
+									type="button"
+									class="copy-btn"
+									data-copy="curl -fsSL https://raw.githubusercontent.com/aureliushq/ink/main/install.sh | sh"
+									aria-label="Copy install command"
+								>
+									Copy
+								</button>
+							</div>
+							<p class="step-desc">
+								Or run <code>go install github.com/aureliushq/ink@latest</code>,
+								or download a prebuilt binary for your platform from the
+								<a
+									href="https://github.com/aureliushq/ink/releases"
+									target="_blank"
+									rel="noopener"
+									>releases page</a
+								>.
+							</p>
+						</div>
+					</li>
+					<li>
+						<div>
+							<p class="step-title">Add a config file</p>
+							<p class="step-desc">
+								Create an <code>ink.toml</code> at the root. No template needed
+								to start — the built-in default theme renders a presentable site
+								on its own. More themes, coming soon.
+							</p>
+
+							<div class="step-shot">
+								<pre class="term">
+<span class="bi">[site]</span>
+<span class="k">title</span>       = <span class="s">"My Site"</span>
+<span class="k">subtitle</span>    = <span class="s">"A short tagline"</span>
+<span class="k">base_url</span>    = <span class="s">"https://example.com"</span>
+<span class="k">author</span>      = <span class="s">"Your Name"</span>
+
+<span class="bi">[theme]</span>
+<span class="k">name</span> = <span class="s">"default"</span>
+
+<span class="bi">[build]</span>
+<span class="k">collections</span> = [<span class="s">"articles"</span>, <span class="s">"projects/*"</span>]
+<span class="k">content</span>     = <span class="s">"content"</span>
+<span class="k">output</span>      = <span class="s">"public"</span>
+<span class="k">drafts</span>      = <span class="bi">false</span>
+</pre>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div>
+							<p class="step-title">Add content</p>
+							<p class="step-desc">
+								Drop Markdown files into <code>content/</code>. A frontmatter
+								block at the top of each file carries the title, description,
+								tags, draft status, and series position — no sidecar files, no
+								database.
+							</p>
+							<div class="step-shot">
+								<pre class="term"><span class="dim">---</span>
+<span class="k">title</span>: <span class="s">My First Post</span>
+<span class="k">description</span>: <span class="s">A short summary used in listings and meta.</span>
+<span class="k">tags</span>:
+  <span class="dim">-</span> <span class="s">go</span>
+  <span class="dim">-</span> <span class="s">tutorial</span>
+<span class="k">status</span>: <span class="s">published</span>
+<span class="k">created_at</span>: <span class="s">2025-01-06</span>
+<span class="k">updated_at</span>: <span class="s">2025-01-06</span>
+<span class="k">published_at</span>: <span class="s">2025-01-06</span>
+<span class="k">series_id</span>: <span class="s">build-your-own-redis</span>
+<span class="k">series_order</span>: <span class="num">1</span>
+<span class="dim">---</span>
+
+Your Markdown content goes here.
+</pre>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div>
+							<p class="step-title">Build and preview</p>
+							<p class="step-desc">
+								<code>ink build</code> writes the static site to
+								<code>public/</code>. <code>ink serve</code> previews it locally
+								at <code>http://localhost:8782</code>.
+							</p>
+							<div class="step-shot">
+								<pre class="term"><span class="pr">$</span> ink build
+
+<span class="ok">✓</span> read      <span class="dim">content/</span>   <span class="dim">14 pages, 2 drafts skipped</span>
+<span class="ok">✓</span> rendered  <span class="dim">→ public/</span>
+<span class="ok">✓</span> assets    <span class="dim">copied static/</span>
+<span class="ok">✓</span> tailwind  <span class="dim">compiled static/main.css</span>
+
+built in <span class="num">84ms</span>
+
+<span class="pr">$</span> ink serve
+serving <span class="s">public/</span> on <span class="k">http://localhost:8782</span>
+</pre>
+							</div>
+						</div>
+					</li>
+				</ol>
+				<p class="install-tail">
+					The <code>demo/</code> directory in the repo is a complete working
+					example — or read the
+					<a
+						href="https://github.com/aureliushq/ink/blob/main/DOCUMENTATION.md"
+						target="_blank"
+						rel="noopener"
+						>full documentation</a
+					>.
+				</p>
+			</section>
+
+			<!-- ============ Footer ============ -->
+			<footer class="foot">
+				<div class="mark">
+					<span class="wm-name">Ink</span>
+					<span class="wm-line">Purpose-built static site generator.</span>
+				</div>
+				<div class="colophon">
+					<div class="links">
+						<a
+							href="https://github.com/aureliushq/ink"
+							target="_blank"
+							rel="noopener"
+							>GitHub</a
+						>
+						&middot;
+						<a
+							href="https://github.com/aureliushq/ink/releases"
+							target="_blank"
+							rel="noopener"
+							>Releases</a
+						>
+						&middot;
+						<a
+							href="https://github.com/aureliushq/ink/blob/main/DOCUMENTATION.md"
+							target="_blank"
+							rel="noopener"
+							>Documentation</a
+						>
+						&middot;
+						<a
+							href="https://github.com/aureliushq/ink/issues"
+							target="_blank"
+							rel="noopener"
+							>Issues</a
+						>
+						&middot;
+						<a href="https://x.com/0xi4o" target="_blank" rel="noopener"
+							>@0xi4o</a
+						>
+					</div>
+					<p class="ethos">MIT-licensed &middot; v0.4.5</p>
+				</div>
+			</footer>
+		</main>
+
+		<script>
+			(function () {
+				var gallery = document.querySelector("[data-gallery]");
+				if (!gallery) return;
+				var frame = gallery.querySelector(".gallery-frame");
+				var panels = Array.prototype.slice.call(
+					gallery.querySelectorAll(".gallery-panel"),
+				);
+				var tabs = Array.prototype.slice.call(
+					gallery.querySelectorAll(".gallery-tabs button"),
+				);
+				var title = gallery.querySelector("[data-gallery-title]");
+				var line = gallery.querySelector("[data-gallery-line]");
+				var index = 0;
+				var timer = null;
+				var transitionTimer = null;
+				var reduceMotion = window.matchMedia(
+					"(prefers-reduced-motion: reduce)",
+				).matches;
+
+				if (panels.length === 0) return;
+				if (panels.length === 1) {
+					panels[0].classList.add("is-active");
+					panels[0].setAttribute("aria-hidden", "false");
+					if (title) title.textContent = panels[0].dataset.title || "";
+					if (line) line.textContent = panels[0].dataset.line || "";
+					tabs.forEach(function (t) {
+						t.classList.add("is-active");
+						t.setAttribute("aria-pressed", "true");
+					});
+					return;
+				}
+
+				if (panels.length > 0 && title) {
+					title.textContent = panels[0].dataset.title || "";
+					if (line) line.textContent = panels[0].dataset.line || "";
+				}
+
+				function activate(next) {
+					if (next === index) return;
+					var previous = index;
+					var direction = (next - previous + panels.length) % panels.length;
+					gallery.dataset.direction =
+						direction > panels.length / 2 ? "prev" : "next";
+					if (transitionTimer) window.clearTimeout(transitionTimer);
+					panels.forEach(function (p) {
+						p.classList.remove("was-active");
+					});
+					var outgoing = panels[previous];
+					if (outgoing) outgoing.classList.add("was-active");
+					gallery.classList.add("is-switching");
+					transitionTimer = window.setTimeout(function () {
+						gallery.classList.remove("is-switching");
+						if (outgoing) outgoing.classList.remove("was-active");
+						transitionTimer = null;
+					}, 920);
+					index = next;
+					panels.forEach(function (p, i) {
+						var active = i === index;
+						p.classList.toggle("is-active", active);
+						p.setAttribute("aria-hidden", active ? "false" : "true");
+					});
+					tabs.forEach(function (t, i) {
+						var active = i === index;
+						t.classList.toggle("is-active", active);
+						t.setAttribute("aria-pressed", active ? "true" : "false");
+					});
+					if (title) title.textContent = panels[index].dataset.title || "";
+					if (line) line.textContent = panels[index].dataset.line || "";
+				}
+
+				function start() {
+					if (reduceMotion || timer) return;
+					timer = window.setInterval(function () {
+						activate((index + 1) % panels.length);
+					}, 4500);
+				}
+				function stop() {
+					if (!timer) return;
+					window.clearInterval(timer);
+					timer = null;
+				}
+
+				tabs.forEach(function (tab, i) {
+					tab.addEventListener("click", function () {
+						stop();
+						activate(i);
+						start();
+					});
+				});
+				if (frame) {
+					frame.addEventListener("click", function (e) {
+						var box = frame.getBoundingClientRect();
+						var next =
+							e.clientX < box.left + box.width / 2
+								? (index - 1 + panels.length) % panels.length
+								: (index + 1) % panels.length;
+						stop();
+						activate(next);
+						start();
+					});
+				}
+				gallery.addEventListener("mouseenter", stop);
+				gallery.addEventListener("mouseleave", start);
+				gallery.addEventListener("focusin", stop);
+				gallery.addEventListener("focusout", start);
+				start();
+			})();
+
+			(function () {
+				var buttons = Array.prototype.slice.call(
+					document.querySelectorAll(".copy-btn"),
+				);
+				if (!buttons.length) return;
+
+				function fallbackCopy(text) {
+					var ta = document.createElement("textarea");
+					ta.value = text;
+					ta.setAttribute("readonly", "");
+					ta.style.position = "absolute";
+					ta.style.left = "-9999px";
+					document.body.appendChild(ta);
+					ta.select();
+					try {
+						document.execCommand("copy");
+					} catch (e) {}
+					document.body.removeChild(ta);
+				}
+
+				buttons.forEach(function (btn) {
+					btn.addEventListener("click", function () {
+						var text = btn.getAttribute("data-copy") || "";
+						var flash = function () {
+							btn.classList.add("copied");
+							btn.textContent = "Copied";
+							window.setTimeout(function () {
+								btn.classList.remove("copied");
+								btn.textContent = "Copy";
+							}, 1600);
+						};
+						if (navigator.clipboard && navigator.clipboard.writeText) {
+							navigator.clipboard.writeText(text).then(flash, function () {
+								fallbackCopy(text);
+								flash();
+							});
+						} else {
+							fallbackCopy(text);
+							flash();
+						}
+					});
+				});
+			})();
+		</script>
+		<!-- Optional: redirect first-time visitors to their browser-language version.
+     Uncomment when the shipped locales below match the actual /zh/, /tw/, /ja/, /ko/ pages.
+     Skips when the user has already chosen a language in this session, and when not at the site root.
+<script>
+(function(){
+  if (location.pathname !== '/' && location.pathname !== '/index.html') return;
+  if (sessionStorage.getItem('lang-choice')) return;
+  var map = { 'zh-CN':'/zh/', 'zh-Hans':'/zh/', 'zh':'/zh/', 'zh-TW':'/tw/', 'zh-Hant':'/tw/', 'ja':'/ja/', 'ko':'/ko/' };
+  var prefs = (navigator.languages || [navigator.language || '']);
+  for (var i = 0; i < prefs.length; i++) {
+    var tag = prefs[i];
+    var target = map[tag] || map[tag.split('-')[0]];
+    if (target) { sessionStorage.setItem('lang-choice', tag); location.replace(target); return; }
+  }
+})();
+</script>
+-->
+	</body>
+</html>
